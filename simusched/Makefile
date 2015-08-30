@@ -8,6 +8,9 @@ MAIN=simusched
 .PHONY: all clean new
 all: $(MAIN)
 
+ejercicio1:
+	./simusched taskConsola.tsk 1 1 1 SchedFCFS | ./graphsched.py  > ej1.png	
+
 $(MAIN): $(OBJS) sched_mistery.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 

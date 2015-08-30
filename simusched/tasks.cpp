@@ -1,5 +1,7 @@
 #include "tasks.h"
+#include "stdlib.h"
 
+#include <sys/time.h>
 using namespace std;
 
 void TaskCPU(int pid, vector<int> params) { // params: n
@@ -18,6 +20,26 @@ void TaskAlterno(int pid, vector<int> params) { // params: ms_pid, ms_io, ms_pid
 	}
 }
 
+//Esta tarea genera n llamadas bloqueantes con duracion al azar(entre bmin y bmax)
+void TaskConsola(int pid, vector<int> params){ //params: n,bmin,bmax
+	//Obtenemos una semilla a partir de la hora
+	srand(time(NULL));
+
+	int range =  params[1] - params[2];
+	int rmax = RAND_MAX;
+	int i,rnd;
+	
+	for(i=0;i<params[0];i++){
+		rnd = (rand() / (rmax / range)) + params[2];	
+		uso_IO(pid, rnd); // Uso IO rnd ms
+	}
+
+	return ;
+}
+
+
+	
+
 void tasks_init(void) {
 	/* Todos los tipos de tareas se deben registrar acá para poder ser usadas.
 	 * El segundo parámetro indica la cantidad de parámetros que recibe la tarea
@@ -25,4 +47,6 @@ void tasks_init(void) {
 	register_task(TaskCPU, 1);
 	register_task(TaskIO, 2);
 	register_task(TaskAlterno, -1);
+	register_task(TaskConsola,3);
+	
 }

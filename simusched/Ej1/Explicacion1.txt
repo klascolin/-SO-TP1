@@ -1,0 +1,20 @@
+
+hacer makefile: ./simusched taskConsola.tsk 1 1 1 SchedFCFS | ./graphsched.py  > ej1.png
+
+
+Tarea Consola:
+Esta tarea recibe tres parametros:n,bim y max.
+A partir de esto genera n llamadas bloqueantes con duracion al azar(entre bmin y bmax).
+
+Para ello, hacemos un ciclo cuya duracion esta indicada por el primer elemento del vector de parametros(n).
+En el cuerpo del ciclo, creamos un numero pseudo-aleatorio usando la funcion rand() y llamamos a uso_IO con el mismo.
+Por defecto, el numero devuelto se encuentra en el rango [0,RAND_MAX]. Para que quede definido en [bmin,bmax] basta con dividir el numero obtenido por RAND_MAX y luego multiplicarlo por el rango(bmax-bmin). Esto garantiza que el tamaño del numero no excede al rango. Finalmente le sumamos bmin.
+Notar que:
+Si rand() = RAND_MAX, entonces (rand() / RAN_MAX)*rango + bmin = 1*rango + bmin = bmax
+Si rand() = 0, entonces (rand() / RAN_MAX)*rango + bmin = 0*rango + bmin = bmin
+
+Sin embargo, rand() generara siempre la misma sucesion de numeros pseudo-aletorios en cada nueva ejecucion. Para este detalle, es necesario utilizar srand(time(NULl)) que generara una nueva "semilla" para rand()  basado en la hora actual.
+Esto garantiza una mayor probabilidad de obtener ,por ejecucion,parametros distintos para rand , y por ende una sucesion distinta de numeros pseudo-aleatorios.
+
+Grafico:
+
