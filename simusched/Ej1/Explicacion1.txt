@@ -1,5 +1,4 @@
 
-hacer makefile: ./simusched taskConsola.tsk 1 1 1 SchedFCFS | ./graphsched.py  > ej1.png
 
 
 Tarea Consola:
@@ -13,6 +12,7 @@ Notar que:
 Si rand() = RAND_MAX, entonces (rand() / RAN_MAX)*rango + bmin = 1*rango + bmin = bmax
 Si rand() = 0, entonces (rand() / RAN_MAX)*rango + bmin = 0*rango + bmin = bmin
 
+//Esto lo saque del codigo
 Sin embargo, rand() generara siempre la misma sucesion de numeros pseudo-aletorios en cada nueva ejecucion. Para este detalle, es necesario utilizar srand(time(NULl)) que generara una nueva "semilla" para rand()  basado en la hora actual.
 Esto garantiza una mayor probabilidad de obtener ,por ejecucion,parametros distintos para rand , y por ende una sucesion distinta de numeros pseudo-aleatorios.
 

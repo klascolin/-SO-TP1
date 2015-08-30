@@ -23,7 +23,7 @@ void TaskAlterno(int pid, vector<int> params) { // params: ms_pid, ms_io, ms_pid
 //Esta tarea genera n llamadas bloqueantes con duracion al azar(entre bmin y bmax)
 void TaskConsola(int pid, vector<int> params){ //params: n,bmin,bmax
 	//Obtenemos una semilla a partir de la hora
-	srand(time(NULL));
+	//srand(time(NULL));
 
 	int range =  params[1] - params[2];
 	int rmax = RAND_MAX;

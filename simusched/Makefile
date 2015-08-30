@@ -5,11 +5,17 @@ LDFLAGS= -lpthread
 OBJS=main.o simu.o basesched.o basetask.o tasks.o sched_rr.o sched_fcfs.o sched_rr2.o sched_no_mistery.o
 MAIN=simusched
 
+
 .PHONY: all clean new
 all: $(MAIN)
 
 ejercicio1:
-	./simusched taskConsola.tsk 1 1 1 SchedFCFS | ./graphsched.py  > ej1.png	
+	mkdir ejercicio1
+	./simusched taskConsola.tsk 1 1 1 SchedFCFS | ./graphsched.py  > ./ejercicio1/ej1.png	
+ejercicio2:
+	mkdir ejercicio2
+	./simusched taskRolando.tsk 1 4 1 SchedFCFS  | ./graphsched.py > ./ejercicio2/Rolando1Core.png
+	./simusched taskRolando.tsk 2 4 1 SchedFCFS  | ./graphsched.py > ./ejercicio2/Rolando2Core.png
 
 $(MAIN): $(OBJS) sched_mistery.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
@@ -25,6 +31,8 @@ tasks.o: tasks.cpp tasks.h basetask.h
 
 clean:
 	rm -f $(OBJS) $(MAIN)
+	rm -r ejercicio1
+	rm -r ejercicio2
 
 new: clean all
 
