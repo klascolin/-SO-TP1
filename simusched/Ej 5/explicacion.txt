@@ -1,35 +1,53 @@
 
-En las tareas que se bloquean, el waiting time se reduce , en cada bloque, por 3(ya que en esa cantidad de ciclo la tarea no esta ready, si no bloqueada)
+En las tareas que se bloquean, el waiting time se reduce , en cada bloque, por 3(ya que en esa cantidad de ciclo la tarea no esta ready, si no bloqueada).
+Todas las tareas llegan al sistema, estan en el estado "ready", en el ciclo inicial.
 
 Para el running time estoy considerando desde el ciclo en que comienza a ejecutarse, hasta el ultimo.
 
 Quantum 2
 
-Latencia		WaitingTime		RunningTime
-Tarea0 2		2+16*6+19*10	339 -2 + 1 = 338|\\
-Tarea1 6		6+16*6+19*10	342 -6 +1 = 337 |--->no deberian dar iguales estos?NO creo,me respondo solo(?)
-Tarea2 10		10+16*6+19*10	345 -10 +1 = 346|//
-Tarea3 14		14+13*5			105- 14 +1 = 92
-Tarea4 17		14+13*5			108-17 +1 = 92
+		Latencia		WaitingTime			RunningTime
+Tarea0 	2			2+16*6+19*10	=288	339 -2 + 1 	= 338|\\
+Tarea1 	6			6+16*6+19*10	=292	342 -6 +1 	= 337 |--->no deberian dar iguales estos?NO creo,me respondo solo(?)
+Tarea2 	10			10+16*6+19*10	=296	345 -10 +1 	= 346|//
+Tarea3 	14			14+13*5			=79		105- 14 +1 	= 92
+Tarea4 	17			17+13*5			=82		108-17 +1 	= 92
 
 Quantum 10
 
-Latencia		WaitingTime		RunningTime
-Tarea0 2		2+33*5			213-2+1
-Tarea1 14		14+33*4+23		216 -14 +1
-Tarea2 26		26+33*4+14		219 -26 +1
-Tarea3 38		38+39*4+13		222 - 38 +1		
-Tarea4 41		41+13*4+12		225-41+1
+		latencia		WaitingTime				RunningTime
+Tarea0 	2			2+33*5	 	= 167		213-2+1 	= 212
+Tarea1 	14			14+33*4+24	= 170		216 -14 +1 	= 203
+Tarea2 	26			26+33*4+15	= 173		219 -26 +1 	= 194
+Tarea3 	38			38+39*4+12	= 206		222 - 38 +1 = 185
+Tarea4 	41			41+39*4+12	= 209		225-41+1	= 185
 
 
 Quantum 50
 
-Latencia		WaitingTime		RunningTime
-Tarea0 2		2+28*4			165 -2 +1
-Tarea1 54		54+15*4+3		168 -54 +1
-Tarea2 106		106+15			171-106 + 1
-Tarea3 158		158+20			198-158		
-Tarea4 161		161+20			201-161
+		Latencia		WaitingTime					RunningTime
+Tarea0 	2			2+28*4 		= 114			165 -2  + 1 	= 164
+Tarea1 	54			54+15*4+3	= 117			168 -54 + 1		= 115
+Tarea2 	106			106+15		= 121			171-106 + 1		= 66
+Tarea3 	158			158+20		= 178			198-158	+ 1		= 40
+Tarea4 	161			161+20		= 181			201-161 + 1		= 41
 
 
-Falta relacionar datos,etc
+¿En cual es mejor cada uno? ¿Por que ocurre esto?
+
+Los calculos, basados en los datos que arroja el simulador y respaldados por lo que se observa en el grafico, nos permitiran sacar conclusiones sobre los aspectos medidos: Latencia, Waiting Time y Running Time.
+En el caso de la latencia, se ve que aumenta conforme lo hace el quantum. Es decir, en el primer caso la latencia es:
+Quantum*n+ContextSwitch*(n+1) donde n es la cantidad de tareas que se encuentran ,en la cola del scheduler, antes de la actual.
+Luego, como ContextSwitch esta fijo, y es 2, pero Quantum aumenta, se ve que, por esta ecuacion, la latencia empeorara conforme aumente el Quantum.
+Sin embargo, el waiting time decrece ,para todos los procesos ,del tipo TaskCPU, si el Quantum lo hace.En el segundo caso, el siguiente calculo obtiene un estimado del tiempo en espera de las TaskCPU, una vez puestas en ejecucion 
+(CiclosCpu/Quantum)*(ContextSwitch*(CantTareas)+Quantum*2+1*2(tareas con bloqueantes) = Ciclos en cambio de contexto.
+Esto vale durante toda su ejecucion. Notar que en el caso de quantum 2, promediando los 110 ciclos la ecuacion cambia, porque la CantTareas se reduce ya que las tareas con llamadas bloqueantes finalizan.
+
+ Si aumentamos el Quantum , con el ContextSwitch fijo, estaremos disminuyendo el tiempo que se "desperdicia" en hacer los cambios entre tareas, aumentando el tiempo que los procesos tienen a su disposicion el cpu ,por ronda, pero ,a su vez, incrementando el waiting time entre ronda. En este caso, la combinacion  resulta favorable para las tareas TaskCpu, no asi para las tareas Consola, que para poder ejecutar las cinco llamadas, deberan esperar al menos 5 rondas, cuya duracion aumento con respecto a las de Quantum 2.
+
+Cuando subimos el quantum a 50, observamos una situacion particular. Cada tarea TaskCpu puede terminar en una ronda, por lo tanto se reducen drasticamente la cantidad de ciclos desperdiciados en los cambios de contexto, al mismo que se reduce el Waiting time, en detreimiento de la latencia, como se explico anteriormente. Se ve tambien que la situacion para las tareas Consola mejora levemente, ya que el waiting tiime disminuye dado que luego de realizar las dos primeras llamadas, no hay mas taras Consola en la cola del scheduler(como se observa en el grafico, promediando el ciclo 180), por lo que pueden alternarse entre ellas y finalizar mas rapidamente las llamadas restantes.
+En conclusion, las tareas Consola obtuvieron su mejor waiting time con Quantum 2, donde el era lo suficientemente chico como para completar rapidamente sus llamadas, debido a que el tiempo esperado por ronda era menor. Esta situacion, pudo verse tambien con Quantum = 50 sobre el final de la ejecucion(por la particularidad que se explico anteriormente). Sin embargo, no fue optimo porque tambien sufrieron un notable aumento en la latencia, con respecto al primer escenario.
+
+
+Como consecuencia de lo anteriormente explicado es que se obtiene un running time optimo, para estos casos, con Quantum = 50.
+Es decir, en este ultimo escenario ,el scheduler tuvo un desempeño similar al de un FCFS(ver imagen ejercicoo 6) que, debido a la naturaleza de las tareas elegidas, minimiza el running time.
