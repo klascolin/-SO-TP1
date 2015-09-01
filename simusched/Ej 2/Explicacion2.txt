@@ -17,7 +17,7 @@ Los valores exactos fueron extraidos desde la ejecucion en consola
 Tarea  (+tipo?) 	ciclos
 TaskCPU		4 
 TaskConsola 108  -20 +1 = 89
-TaskConsola 200 - 40 + 1 =  161
+TaskConsola 189 - 40 + 1 =  150
 
 Segundo caso:
 
@@ -25,9 +25,9 @@ Latencia(2 nucleo)
 Tarea   	ciclos
 TaskCPU		4 
 TaskConsola 4
-TaskConsola 40 108 - 40 + 1 =  69
+TaskConsola 40 104 - 40 + 1 =  65
 
-En este escenario, se puede observar que la duracion del lote de tareas en el caso de un solo nucleo finaliza despues de los 300 ciclos, mientras que con dos, no supera los 230.
+En este escenario, se puede observar que la duracion del lote de tareas en el caso de un solo nucleo finaliza despues de los 290 ciclos, mientras que con dos, no supera los 210
 Esto se debe a la ganancia en la latencia del segundo caso con respecto al primero. Como se puede ver en el grafico, y en los calculos previos, la tarea 1 llega en el ciclo 20  y solo pasa 4 en estado ready pues luego es "recibida" por el segundo nucleo, que hasta el momento se encontraba ejecutando la tarea IDLE(desde 0 a 20 ciclos, como se puede apreciar)
 Esta situacion seria imposible en el caso 1, ya que la tarea 1 debe esperar(por razones de la implementacion FCFS y por la ausencia de un segundo nucleo) a que la tareaCPU(ID = 0) llegue a su fin(como se puede ver al cabo de los 105 cilos).
 Notese que hay un ciclo adicional por tarea, siendo este la llamada a la syscall exit().
