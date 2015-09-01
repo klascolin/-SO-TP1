@@ -20,9 +20,9 @@ ejercicio2:
 
 ejercicio5:
 	mkdir ejercicio5
-	./simusched taskEj5.tsk 1 4 1 SchedRR  2  | ./graphsched.py > ./ejercicio5/quantum2.png
-	./simusched taskEj5.tsk 1 4 1 SchedRR 10 | ./graphsched.py > ./ejercicio5/quantum10.png
-	./simusched taskEj5.tsk 1 4 1 SchedRR 50| ./graphsched.py > ./ejercicio5/quantum50.png
+	./simusched taskEj5.tsk 1 2 1 SchedRR  2  | ./graphsched.py > ./ejercicio5/quantum2.png
+	./simusched taskEj5.tsk 1 2 1 SchedRR 10 | ./graphsched.py > ./ejercicio5/quantum10.png
+	./simusched taskEj5.tsk 1 2 1 SchedRR 50| ./graphsched.py > ./ejercicio5/quantum50.png
 
 $(MAIN): $(OBJS) sched_mistery.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
