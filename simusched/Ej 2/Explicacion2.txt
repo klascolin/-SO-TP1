@@ -1,3 +1,5 @@
+ROTULAR GRAFICOS
+
 Ejercicio2:
 
 Informacion Lote de tareas(Poner en tabla)

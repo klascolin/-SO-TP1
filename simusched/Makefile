@@ -12,10 +12,17 @@ all: $(MAIN)
 ejercicio1:
 	mkdir ejercicio1
 	./simusched taskConsola.tsk 1 1 1 SchedFCFS | ./graphsched.py  > ./ejercicio1/ej1.png	
+
 ejercicio2:
 	mkdir ejercicio2
 	./simusched taskRolando.tsk 1 4 1 SchedFCFS  | ./graphsched.py > ./ejercicio2/Rolando1Core.png
 	./simusched taskRolando.tsk 2 4 1 SchedFCFS  | ./graphsched.py > ./ejercicio2/Rolando2Core.png
+
+ejercicio5:
+	mkdir ejercicio5
+	./simusched taskEj5.tsk 1 4 1 SchedRR 1 2  | ./graphsched.py > ./ejercicio5/quantum2.png
+	./simusched taskEj5.tsk 1 4 1 SchedRR 1 10 | ./graphsched.py > ./ejercicio5/quantum10.png
+	./simusched taskEj5.tsk 1 4 1 SchedRR 1 50| ./graphsched.py > ./ejercicio5/quantum50.png
 
 $(MAIN): $(OBJS) sched_mistery.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
