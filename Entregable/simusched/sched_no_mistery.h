@@ -20,7 +20,6 @@ class SchedNoMistery : public SchedBase {
             momento=y;
         }
     }tupla;
-    int terminadas;
     std::vector<int> quantum;   //Tiene todos los quantum que nos pasan por parametro
     std::vector<int> lista;     //Va a tener todas las tareas que estan corriendo y no estan bloqueadas
     std::queue<int> colaBloq;   //Va a tener a las tareas que se fueron desbloqueando
