@@ -30,19 +30,19 @@ void SchedNoMistery::load(int pid) {
 void SchedNoMistery::unblock(int pid) {
 	colaBloq.push(pid);
 	lista.push_back(pid);
-	int i=0;
-	cout<<"lista des ";
-	while(i<lista.size()){
-	cout<<lista[i]<<" ";
-	i++;
-	}
-	cout<<""<<endl;
+	//~ int i=0;
+	//~ cout<<"lista des ";
+	//~ while(i<lista.size()){
+	//~ cout<<lista[i]<<" ";
+	//~ i++;
+	//~ }
+	//~ cout<<""<<endl;
 	//actual=actual%lista.size();
 }
 
 int SchedNoMistery::tick(int cpu, const enum Motivo m) {
     //~ cout<<"lista"<<lista.size()<<endl;
-    cout<<"actual: "<<lista[actual]<< endl;
+    //~ cout<<"actual: "<<lista[actual]<< endl;
     if(m==EXIT){
 		terminadas ++ ;
 		int i=0;
@@ -163,6 +163,7 @@ int SchedNoMistery::tick(int cpu, const enum Motivo m) {
 		if(j<quantum.size()-1){
             contador[current_pid(cpu)].momento=contador[current_pid(cpu)].momento+1;
 		}
+	
 		int k=0;
 		while(k<lista.size()){
 			if(current_pid(cpu)==lista[k]){
@@ -179,9 +180,9 @@ int SchedNoMistery::tick(int cpu, const enum Motivo m) {
 			i++;
 		}
 		cout<<""<<endl;
-        
-         if(lista.size() != 0){
-			actual=actual%lista.size();
+         
+        if(lista.size() != 0){
+			actual=(actual+1)%lista.size();
 		}
         if(!nuevos.empty()){
 				int sig = nuevos.front();
