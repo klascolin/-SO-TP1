@@ -1,0 +1,6 @@
+TaskCPU 100
+@20
+TaskConsola 20 1 4
+@40
+TaskConsola 25 1 4
+
