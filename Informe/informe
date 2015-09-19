@@ -85,31 +85,30 @@ Tarea Consola: Esta tarea recibe tres parámetros: n, bmin y bmax. A partir de e
 
 Para ello, hacemos un ciclo cuya duración esta indicada por el primer elemento del vector de parametros(n).
 En el cuerpo del ciclo, creamos un numero pseudo-aleatorio usando la función \textbf{rand()} y llamamos a \textbf{uso\_IO} con el mismo.
-Por defecto, el numero devuelto se encuentra en el rango $[0,rand\_MAX]$. Para que quede definido en $[bmin,bmax]$ basta con dividir el numero obtenido por $rand\_MAX$ y luego multiplicarlo por el rango $bmax-bmin$. Esto garantiza que el tamaño del numero no excede al rango. Finalmente le sumamos bmin.
-Notar que:\\
+Por defecto, el numero devuelto se encuentra en el rango $[0,rand\_MAX]$. Para que quede definido en $[bmin,bmax]$ basta con lo siguiente:
 
-Si \textbf{rand()} = $rand\_max$, entonces: \\
+Sea $rango = bmax - bmin + 1 $
 
-$(\frac{\textbf{rand()}}{rand\_MAX})*rango + bmin = 1*rango + bmin = bmax$ \\
+$0$ \hspace{6mm}$\leq$  \hspace{5mm}\textbf{rand()} mod $rango \ < rango = bmax - bmin +1$ 
 
-Si \textbf{rand()} $= 0$, entonces: \\
-
-($\frac{\textbf{rand()}}{rand\_MAX})*rango + bmin = 0*rango + bmin = bmin$
+$bmin\leq$ \hspace{4mm} \textbf{rand()} mod $rango\ + \ bmin \ <  bmax \ - \ bmin \ +1 \ + \ bmin \ = \ bmax \ +1 \leq bmax$
 
 Además \textbf{rand()} generará siempre la misma sucesión de números pseudo-aleatorios en cada nueva ejecución.
+
+Exactamente esta operatoria es la que se hace en el codigo.
 \subsection{Gráficos:}
 
 A continuación se muestra un gráfico representando la ejecución de un lote de cuatro tareas: Las de ID cero y uno  del tipo consola, la de ID 2 del tipo \textbf{uso\_cpu} y la ultima del tipo \textbf{uso\_IO}. Todas son manejadas por un scheduler \textit{FCFS(First Come First Served)}. Todas se van incorporando al scheduler con 2 clocks de diferencia.
-Notese que, por ejemplo, la primer tarea fue corrida con una duración de 5 clocks(+1) y un rango de $[2,7]$. Se pueden identificar las 5 llamadas, de duración 2,5,3,3,2 en esa secuencia.
+Notese que, por ejemplo, la primer tarea fue corrida con una duración de 5 clocks(+1) y un rango de $[2,7]$. Se pueden identificar las 5 llamadas, de duración 2,5,3,6,2 en esa secuencia.
 \begin{figure}[H]
   	\centering
    	\includegraphics[width=1\textwidth]
    	 {imgs/ej1.png}
-	\caption{FCFS con dos TaskConsola y otras dos}
+	\caption{FCFS con dos TaskConsola, una TaskCPU y otra TaskIO}
 \end{figure}
 
 
-\section{Ejercicio 2::}
+\section{Ejercicio 2:}
 
 \subsection{Enunciado:}Rolando, uno de los investigadores del departamento, utiliza su computadora
 para correr un algoritmo muy complejo que hace un uso intensivo de la CPU por 100 ciclos
@@ -191,7 +190,7 @@ Por estas razones es que ,también, la ultima tarea(ID = 2) reduce el tiempo de 
 Es importante marcar que las tareas que simulan la reproducción de una canción y la navegación, realizan una cantidad de llamadas bloqueantes de duración entre 2 y 4 ciclos, durante las cuales el flujo de ejecución queda estático, es decir es tiempo que el cpu "desperdicia" , a diferencia de Round Robin, donde se cambiaría inmediatamente a otro proceso.
 
 Notese que hay un ciclo adicional por tarea, siendo este la llamada a la syscall exit().
-\section{Ejercicio 3::}
+\section{Ejercicio 3:}
 
 \subsection{Enunciado:}
 
@@ -237,7 +236,7 @@ La forma de solucionar el ejercicio fue planteada de manera que el tiempo total 
 Entonces se va a ciclar sobre todos los posibles valores donde puede llegar a bloquearse, y se van a elegir la cantidad de bloqueos necesarios, distribuidos aleatoriamente en ese array, y luego ese va a ser el que decide ,para cada momento, si el proceso va a estar corriendo o si va a estar bloqueado. Como lo corremos con el scheduler \textbf{First Come First Served}, sabemos que no se le va a quitar nunca el privilegio del procesador, entonces el tiempo total que va a correr un lote de tareas ,de este tipo, va a ser el tiempo total de Cpu pasado por parámetro (+1) por cada tarea, mas la cantidad de veces que se va a bloquear.
 La forma de decirle cuando corre Cpu, o cuando es I/O, es simplemente recorrer el array, y verificar si antes se eligió poner   un bloqueo o un ciclo de CPU. Como no hay desalojamiento, entonces no hay cambio de contexto, salvo cuando se termina cada proceso.
 
-\section{Ejercicio 5::}
+\section{Ejercicio 5:}
 
 \subsection{Enunciado:}
 Diseñe un lote con 3 tareas de tipo TaskCPU de 50 ciclos y 2 de tipo TaskConsola con 5 llamadas bloqueantes de 3 ciclos de duración cada una. Ejecutar y graficar la simulación utilizando el scheduler Round-Robin con quantum 2, 10 y 50. Con un cambio de contexto de 2 ciclos y un sólo núcleo calcular la latencia, el waiting time y el tiempo total de ejecución de las cinco tareas para cada quantum. ¿En cuál es mejor cada uno? ¿Por qué ocurre esto?
@@ -348,34 +347,31 @@ A continuación se muestra la tabla que se obtiene de simular la situación plan
 
 
 Los cálculos, basados en los datos que arroja el simulador y respaldados por lo que se observa en el gráfico, nos permitirán sacar conclusiones sobre los aspectos medidos: Latencia, Waiting Time y Running Time.
-En el caso de la latencia, se ve que aumenta conforme lo hace el quantum. Es decir, en el primer caso(figura 5) la latencia es:
+En el caso de la latencia, se ve que aumenta conforme lo hace el quantum. Esto se debe a que , asumiendo que todas las tareas llegan en el instante inicial como lo hacen en los graficos, las mismas deben esperar rondas de mayor tiempo para poder comenzar a ejecutar. Tambien se podría observar, por la misma razon, que si el costo del cambio de tareas aumentase, la latencia tambien lo hará.
+
+Sin embargo, el waiting time decrece ,para todos los procesos ,del tipo TaskCPU, si el Quantum lo hace.
+Si se define el overhead producido por los context switch(son tiempos de procesamiento "desperdiciado") como: \\
+
 \begin{center}
-$Quantum*n+ContextSwitch*(n+1)$
+\textbf{context switch overhead} = $\frac{C}{(Q+C)}$
 \end{center}
-Donde n es la cantidad de tareas que se encuentran ,en la cola del scheduler, antes de la actual en el primer instante.
-Por ejemplo para la tarea de ID 1 seria uno porque la cero esta antes.
-Luego, como ContextSwitch esta fijo, y es 2, pero Quantum aumenta, se ve que, por esta ecuación, la latencia empeorara conforme aumenta el Quantum.
-Sin embargo, el waiting time decrece ,para todos los procesos ,del tipo TaskCPU, si el Quantum lo hace.En el segundo caso, el siguiente calculo obtiene un estimado del tiempo en espera de las TaskCPU, una vez puestas en ejecución: \\
-\begin{center}
-$Waiting \ Time = $ 
 
-$(CiclosCpu/Quantum)*(ContextSwitch*CantTareas+Quantum*2+CantTareasConIO) $
+Donde $Q$ = quantum y $C$ = costo del context switch
 
-\end{center}
-Esto vale durante toda su ejecución. Notar que en el caso de quantum 2, promediando los 110 ciclos la ecuación cambia, porque la CantTareas se reduce ya que las tareas con llamadas bloqueantes finalizan.
+Podemos ver que si  aumentamos $Q$, con el $C$, estaremos disminuyendo el tiempo que se "desperdicia" en hacer los cambios entre tareas.
+Además, como otra consecuencia, se aumentará el tiempo que los procesos tienen a su disposición el cpu antes de ser desalojados,pero ,a su vez, incrementando el waiting time entre ronda. En este caso, la combinación  resulta favorable para las tareas TaskCpu, no así para las tareas Consola, que para poder ejecutar las cinco llamadas, deberán esperar al menos 5 rondas, cuya duración aumento con respecto a las de Quantum 2.
 
- Si aumentamos el Quantum , con el ContextSwitch fijo, estaremos disminuyendo el tiempo que se "desperdicia" en hacer los cambios entre tareas, aumentando el tiempo que los procesos tienen a su disposición el cpu ,por ronda, pero ,a su vez, incrementando el waiting time entre ronda. En este caso, la combinación  resulta favorable para las tareas TaskCpu, no así para las tareas Consola, que para poder ejecutar las cinco llamadas, deberán esperar al menos 5 rondas, cuya duración aumento con respecto a las de Quantum 2.
-
-Cuando subimos el quantum a 50, observamos una situación particular. Cada tarea TaskCpu puede terminar en una ronda, por lo tanto se reducen drásticamente la cantidad de ciclos desperdiciados en los cambios de contexto, al mismo tiempo que se reduce el Waiting time, en detrimento de la latencia, como se explico anteriormente. Se ve también que la situación para las tareas Consola mejora levemente, ya que el waiting time disminuye dado que luego de realizar las dos primeras llamadas, no hay mas taras Consola en la cola del scheduler(como se observa en el gráfico, promediando el ciclo 180), por lo que pueden alternarse entre ellas y finalizar mas rápidamente las llamadas restantes.
+Cuando subimos el quantum a 50, observamos una situación particular. Cada tarea TaskCpu puede terminar en una ronda, por lo tanto se reducen drásticamente la cantidad de ciclos desperdiciados en los cambios de contexto, al mismo tiempo que se reduce el Waiting time, en detrimento de la latencia, como se explico anteriormente. Este escenario genera, entonces, un tiempo de respuesta ,para los procesos que no son atendidos de inmediato(como las tarea 3 y 4), mucho mayor. Esta penalidad podria no ser deseable en situaciones donde se corren tareas interactivas.
+Se ve también que la situación para las tareas Consola mejora levemente, ya que el waiting time disminuye dado que luego de realizar las dos primeras llamadas, no hay mas taras Consola en la cola del scheduler(como se observa en el gráfico, promediando el ciclo 180), por lo que pueden alternarse entre ellas y finalizar mas rápidamente las llamadas restantes.
 En conclusión, las tareas Consola obtuvieron su mejor waiting time con Quantum 2, donde el era lo suficientemente chico como para completar rápidamente sus llamadas, debido a que el tiempo esperado por ronda era menor. Esta situación, pudo verse también con Quantum = 50 sobre el final de la ejecución(por la particularidad que se explico anteriormente). Sin embargo, no fue óptimo porque también sufrieron un notable aumento en la latencia, con respecto al primer escenario.
 
 
 Como consecuencia de lo anteriormente explicado es que se obtiene un running time óptimo, para estos casos, con Quantum = 50.
-Es decir, en este ultimo escenario ,el scheduler tuvo un desempeño similar al de un FCFS(ver figura 8) que, debido a la naturaleza de las tareas elegidas, minimiza el running time.
+Es decir, en este ultimo escenario ,el scheduler tuvo un desempeño similar al de un FCFS(ver figura 8) que, debido a la naturaleza de las tareas elegidas de este caso, minimiza el running time.
 
 
 	
-\section{Ejercicio 6::}
+\section{Ejercicio 6:}
 	
 \subsection{Enunciado:}
 Grafique el mismo lote de tareas del ejercicio anterior para el scheduler FCFS.

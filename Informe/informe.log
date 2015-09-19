@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.3)  17 SEP 2015 12:54
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.3)  19 SEP 2015 14:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -373,9 +373,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \listing@line=\count95
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-2015917774.tex)...disabled (restricted).
+runsystem(touch w18-test-2015919868.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2015917774.tex)...disabled (restricted).
+runsystem(rm -f w18-test-2015919868.tex)...disabled (restricted).
 
 
 
@@ -671,86 +671,67 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout4 = `informe.toc'.
 
  [2]
-Underfull \hbox (badness 10000) in paragraph at lines 86--90
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 91--92
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 93--94
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
-
- []
-
 <imgs/ej1.png, id=14, 1030.85126pt x 187.70125pt>
 File: imgs/ej1.png Graphic file (type png)
  <use imgs/ej1.png>
-Package pdftex.def Info: imgs/ej1.png used on input line 107.
+Package pdftex.def Info: imgs/ej1.png used on input line 106.
 (pdftex.def)             Requested size: 441.01772pt x 80.3004pt.
  [3 <./imgs/ej1.png (PNG copy)>]
-<imgs/Rolando1Core.png, id=22, 1030.85126pt x 157.58875pt>
+<imgs/Rolando1Core.png, id=21, 1030.85126pt x 157.58875pt>
 File: imgs/Rolando1Core.png Graphic file (type png)
 
 <use imgs/Rolando1Core.png>
-Package pdftex.def Info: imgs/Rolando1Core.png used on input line 174.
+Package pdftex.def Info: imgs/Rolando1Core.png used on input line 173.
 (pdftex.def)             Requested size: 441.01772pt x 67.41797pt.
  [4]
-<imgs/Rolando2Core.png, id=26, 1030.85126pt x 187.70125pt>
+<imgs/Rolando2Core.png, id=25, 1030.85126pt x 187.70125pt>
 File: imgs/Rolando2Core.png Graphic file (type png)
 
 <use imgs/Rolando2Core.png>
-Package pdftex.def Info: imgs/Rolando2Core.png used on input line 181.
+Package pdftex.def Info: imgs/Rolando2Core.png used on input line 180.
 (pdftex.def)             Requested size: 441.01772pt x 80.3004pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--189
+Underfull \hbox (badness 10000) in paragraph at lines 185--188
 
  []
 
 [5 <./imgs/Rolando1Core.png (PNG copy)> <./imgs/Rolando2Core.png (PNG copy)>]
-<imgs/Batch.png, id=30, 1030.85126pt x 157.58875pt>
+<imgs/Batch.png, id=29, 1030.85126pt x 157.58875pt>
 File: imgs/Batch.png Graphic file (type png)
  <use imgs/Batch.png>
-Package pdftex.def Info: imgs/Batch.png used on input line 227.
+Package pdftex.def Info: imgs/Batch.png used on input line 226.
 (pdftex.def)             Requested size: 441.01772pt x 67.41797pt.
 
 [6 <./imgs/Batch.png (PNG copy)>]
-<imgs/quantum2.png, id=34, 1030.85126pt x 217.81375pt>
+<imgs/quantum2.png, id=33, 1030.85126pt x 217.81375pt>
 File: imgs/quantum2.png Graphic file (type png)
  <use imgs/quantum2.png>
-Package pdftex.def Info: imgs/quantum2.png used on input line 322.
+Package pdftex.def Info: imgs/quantum2.png used on input line 321.
 (pdftex.def)             Requested size: 441.01772pt x 93.1828pt.
 
-<imgs/quantum10.png, id=35, 1030.85126pt x 217.81375pt>
+<imgs/quantum10.png, id=34, 1030.85126pt x 217.81375pt>
 File: imgs/quantum10.png Graphic file (type png)
 
 <use imgs/quantum10.png>
-Package pdftex.def Info: imgs/quantum10.png used on input line 330.
+Package pdftex.def Info: imgs/quantum10.png used on input line 329.
 (pdftex.def)             Requested size: 441.01772pt x 93.1828pt.
  [7 <./imgs/quantum2.png (PNG copy)>]
-<imgs/quantum50.png, id=40, 1030.85126pt x 217.81375pt>
+<imgs/quantum50.png, id=39, 1030.85126pt x 217.81375pt>
 File: imgs/quantum50.png Graphic file (type png)
 
 <use imgs/quantum50.png>
-Package pdftex.def Info: imgs/quantum50.png used on input line 339.
+Package pdftex.def Info: imgs/quantum50.png used on input line 338.
 (pdftex.def)             Requested size: 441.01772pt x 93.1828pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 355--359
+Underfull \hbox (badness 10000) in paragraph at lines 352--354
 
  []
 
 [8 <./imgs/quantum10.png (PNG copy)> <./imgs/quantum50.png (PNG copy)>]
-<imgs/ej6.png, id=44, 1030.85126pt x 217.81375pt>
+<imgs/ej6.png, id=45, 1030.85126pt x 217.81375pt>
 File: imgs/ej6.png Graphic file (type png)
  <use imgs/ej6.png>
-Package pdftex.def Info: imgs/ej6.png used on input line 390.
+Package pdftex.def Info: imgs/ej6.png used on input line 386.
 (pdftex.def)             Requested size: 441.01772pt x 93.1828pt.
  [9 <./imgs/ej6.png (PNG copy)>] 
 AED: lastpage setting LastPage
@@ -762,20 +743,21 @@ Here is how much of TeX's memory you used:
  9762 multiletter control sequences out of 15000+600000
  8295 words of font info for 34 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,11n,43p,713b,282s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,11n,43p,661b,282s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on informe.pdf (10 pages, 211539 bytes).
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on informe.pdf (10 pages, 215270 bytes).
 PDF statistics:
- 81 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
+ 85 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

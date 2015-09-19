@@ -58,12 +58,11 @@ void TaskConsola(int pid, vector<int> params){ //params: n,bmin,bmax
 	//Obtenemos una semilla a partir de la hora
 	//srand(time(NULL));
 
-	int range =  params[1] - params[2];
-	int rmax = RAND_MAX;
+	int range =  params[2] - params[1] +1;
 	int i,rnd;
 	
 	for(i=0;i<params[0];i++){
-		rnd = (rand() / (rmax / range)) + params[2];	
+		rnd = (rand() % range ) + params[1];	
 		uso_IO(pid, rnd); // Uso IO rnd ms
 	}
 
