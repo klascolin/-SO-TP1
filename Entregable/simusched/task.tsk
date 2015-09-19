@@ -1,7 +1,0 @@
-TaskCPU 3
-@2:
-TaskAlterno 1 3 3
-@3:
-TaskCPU 7
-@4:
-TaskIO 4 2
