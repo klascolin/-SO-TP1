@@ -1,0 +1,413 @@
+\nonstopmode
+\documentclass[10pt, a4paper]{article}
+%\usepackage{subfig}
+
+\parindent=20pt
+\parskip=8pt
+\usepackage[width=15.5cm, left=3cm, top=2.5cm, height= 24.5cm]{geometry}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{tabto}
+\usepackage{indentfirst}
+\usepackage{latexsym}
+\usepackage{gnuplottex}
+\usepackage{epsfig}
+\usepackage{lastpage}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usepackage[export]{adjustbox}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{caratula}
+
+
+%fancyhdr 
+\graphicspath{{imgs/}}
+\setlength{\parindent}{0pt}
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{Sistemas Operativos}
+\rhead{TP1}
+\cfoot{\thepage /\pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+
+
+\newenvironment{changemargin}[2]{%
+\list{}{\rightmargin#2\leftmargin#1
+\parsep=0pt\topsep=0pt\partopsep=0pt}
+\item[]}
+{\endlist}
+
+\newenvironment{indentmore}{\begin{changemargin}{1cm}{0cm}}{\end{changemargin}}
+
+\author{Sistemas Operativos, DC, UBA.}
+\date{}
+\title{}
+
+\begin{document}
+%Caratula
+	\materia{Sistemas Operativos} % obligatorio
+	\submateria{Segundo Cuatrimestre de 2015} % opcional
+	\titulo{Trabajo practico 1} % obligatorio
+	
+	
+	\integrante{Integrante Ignacio Rodriguez}{797/13}{igna\_nacho286@hotmail.com} % obligatorio 
+	\integrante{Integrante Nicolás Mastropasqua}{828/13}{me.nicolas7@gmail.com} % obligatorio 
+	\integrante{Integrante Uriel Fadel}{104/14}{urielfadel@gmail.com} % obligatorio 
+	
+	
+	\maketitle
+	% compilar 2 veces para actualizar las referencias
+	\tableofcontents
+	
+	\pagebreak
+
+\section{Ejercicio 1:}
+
+
+
+\subsection{Enunciado:}
+Programar un tipo de tarea TaskConsola, que simulará una tarea interactiva.
+La tarea debe realizar n llamadas bloqueantes, cada una de una duración al azar 1 entre bmin
+y bmax (inclusive). La tarea debe recibir tres parámetros: n, bmin y bmax (en ese orden)
+que serán interpretados como los tres elementos del vector de enteros que recibe la función.
+Explique la implementación realizada y grafique un lote que utilice el nuevo tipo de tarea.
+
+\subsection{Resolución:}
+Tarea Consola: Esta tarea recibe tres parámetros: n, bmin y bmax. A partir de esto genera n llamadas bloqueantes con duración al azar(entre bmin y bmax).
+
+Para ello, hacemos un ciclo cuya duración esta indicada por el primer elemento del vector de parametros(n).
+En el cuerpo del ciclo, creamos un numero pseudo-aleatorio usando la función \textbf{rand()} y llamamos a \textbf{uso\_IO} con el mismo.
+Por defecto, el numero devuelto se encuentra en el rango $[0,rand\_MAX]$. Para que quede definido en $[bmin,bmax]$ basta con dividir el numero obtenido por $rand\_MAX$ y luego multiplicarlo por el rango $bmax-bmin$. Esto garantiza que el tamaño del numero no excede al rango. Finalmente le sumamos bmin.
+Notar que:\\
+
+Si \textbf{rand()} = $rand\_max$, entonces: \\
+
+$(\frac{\textbf{rand()}}{rand\_MAX})*rango + bmin = 1*rango + bmin = bmax$ \\
+
+Si \textbf{rand()} $= 0$, entonces: \\
+
+($\frac{\textbf{rand()}}{rand\_MAX})*rango + bmin = 0*rango + bmin = bmin$
+
+Además \textbf{rand()} generará siempre la misma sucesión de números pseudo-aleatorios en cada nueva ejecución.
+\subsection{Gráficos:}
+
+A continuación se muestra un gráfico representando la ejecución de un lote de cuatro tareas: Las de ID cero y uno  del tipo consola, la de ID 2 del tipo \textbf{uso\_cpu} y la ultima del tipo \textbf{uso\_IO}. Todas son manejadas por un scheduler \textit{FCFS(First Come First Served)}. Todas se van incorporando al scheduler con 2 clocks de diferencia.
+Notese que, por ejemplo, la primer tarea fue corrida con una duración de 5 clocks(+1) y un rango de $[2,7]$. Se pueden identificar las 5 llamadas, de duración 2,5,3,3,2 en esa secuencia.
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/ej1.png}
+	\caption{FCFS con dos TaskConsola y otras dos}
+\end{figure}
+
+
+\section{Ejercicio 2::}
+
+\subsection{Enunciado:}Rolando, uno de los investigadores del departamento, utiliza su computadora
+para correr un algoritmo muy complejo que hace un uso intensivo de la CPU por 100 ciclos
+y no utiliza ninguna llamada bloqueante. Mientras corre su algoritmo suele poner su canción preferida y luego navegar por internet (estas tareas realizan 20 y 25 llamadas bloqueantes respectivamente con una duración variable entre 2 y 4 ciclos).
+Escribir el lote de tareas que simule la situación de Rolando. Ejecutar y graficar la simulación usando el algoritmo FCFS para 1 y 2 núcleos con un cambio de contexto de 4 ciclos. Calcular la latencia de cada tarea en los dos gráficos. Explicar qué desventaja tendría Rolando si debe mantener este algoritmo de scheduling y sólo tiene disponible una computadora con un núcleo, 
+\subsection{Resolución:}
+
+Para simular esta situación con el scheduler \textbf{FCFS},se armo un lote de tareas como se muestra en la tabla de abajo. Decidimos dejar un tiempo prudencial entre cada una de ellas para cumplir, de cierta forma, con la serializacion que ,entendemos, describe en el problema(Rolando corre su algoritmo, pone su canción y después navega por internet).
+El mismo lote se utilizo para ambos casos.
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    Tarea & TiempoLlegada \\ \hline
+    TaskCPU &	0 \\ \hline 
+    TaskConsola & 20 \\ \hline
+     TaskConsola & 40 \\ \hline
+
+\end{tabular}
+\end{center}
+\begin{flushleft}
+\textbf{Primer Caso:}\\
+\end{flushleft}	
+A continuación se muestra la tabla que se obtiene de simular la situación planteada para un solo núcleo. Los resultados se condicen con el gráfico de la figura 2
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    Tarea & Latencia(en ciclos)\\ \hline
+   TaskCPU &	4 \\ \hline 
+   TaskConsola & 89 \\ \hline
+TaskConsola & 150 \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+  \textit{Los valores exactos fueron extraídos desde la ejecución en consola}
+\end{center}
+
+\begin{flushleft}
+\textbf{Segundo Caso:}\\
+\end{flushleft}
+
+A continuación se muestra la tabla que se obtiene de simular la situación planteada para dos núcleos. Los resultados se condicen con el gráfico de la figura 3
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    Tarea & Latencia(en ciclos)\\ \hline
+   TaskCPU &	4 \\ \hline 
+   TaskConsola & 4 \\ \hline
+TaskConsola & 65 \\ \hline
+\end{tabular}
+\end{center}
+\begin{center}
+  \textit{Los valores exactos fueron extraídos desde la ejecución en consola}
+\end{center}
+
+Gráficos:
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/Rolando1Core.png}
+	\caption{1 core}
+\end{figure}
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/Rolando2Core.png}
+	\caption{2 core}
+\end{figure}
+
+
+En este escenario, se puede observar que la duración del lote de tareas en el caso de un solo núcleo(figura 2) finaliza después de los 290 ciclos, mientras que con dos(figura 3), no supera los 210. 
+Esto se debe a la ganancia en la latencia del segundo caso con respecto al primero. Como se puede ver en el gráfico, y en los cálculos previos, la tarea 1 llega en el ciclo 20  y solo pasa 4 en estado ready pues luego es "recibida" por el segundo núcleo, que hasta el momento se encontraba ejecutando la tarea IDLE(desde 0 a 20 ciclos, como se puede apreciar)
+Esta situación seria imposible en el caso 1, ya que la tarea 1 debe esperar(por razones de la implementación FCFS y por la ausencia de un segundo núcleo) a que la tareaCPU(ID = 0) llegue a su fin(como se puede ver al cabo de los 105 ciclos). \\
+
+Por estas razones es que ,también, la ultima tarea(ID = 2) reduce el tiempo de latencia, aproximadamente acla mitad, en el caso 2, ya que ahora a los 105 ciclos, el primer núcleo se libera de la tareaCPU y luego del context switch de 4 ciclos, se comienza a ejecutar.
+Es importante marcar que las tareas que simulan la reproducción de una canción y la navegación, realizan una cantidad de llamadas bloqueantes de duración entre 2 y 4 ciclos, durante las cuales el flujo de ejecución queda estático, es decir es tiempo que el cpu "desperdicia" , a diferencia de Round Robin, donde se cambiaría inmediatamente a otro proceso.
+
+Notese que hay un ciclo adicional por tarea, siendo este la llamada a la syscall exit().
+\section{Ejercicio 3::}
+
+\subsection{Enunciado:}
+
+Programar un tipo de tarea TaskBatch que reciba dos parámetros: total cpu y
+cant bloqueos. Una tarea de este tipo deberá realizar cant bloqueos llamadas bloqueantes, en
+momentos elegidos pseudo aleatoriamente. En cada tal ocasión, la tarea deberá permanecer
+bloqueada durante exactamente un (1) ciclo de reloj. El tiempo de CPU total que utilice una
+tarea TaskBatch deberá ser de total cpu ciclos de reloj (incluyendo el tiempo utilizado para
+lanzar las llamadas bloqueantes; no así el tiempo en que la tarea permanezca bloqueada).
+Explique la implementación realizada y grafique un lote que utilice 3 tareas TaskBatch con
+parámetros diferentes y que corra con el scheduler FCFS.
+\subsection{Gráficos:}
+
+El siguiente lote de tareas es el utilizado para graficar como funciona la tarea taskBatch.
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+   Tarea & TotalCpu & CantBloqueos \\ \hline
+  TaskBatch & 20 & 2 \\ \hline
+TaskBatch & 60 & 9 \\ \hline
+TaskBatch & 22 & 5 \\ \hline
+
+\end{tabular}
+\end{center}
+
+
+
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/Batch.png}
+	\caption{}
+\end{figure}
+
+
+
+\subsection{Resolución:}
+
+La forma de solucionar el ejercicio fue planteada de manera que el tiempo total de cpu, que se le pasa por parámetro, es la cantidad de tiempo que esta en Running el procesador, mas el ciclo de return que se corre al terminar cada proceso. La forma en que lo pensamos fue tener un array, del tamaño total de cantidad de ciclos que necesita el procesador para terminar, y luego fijarse cuantos bloqueos necesita.
+
+Entonces se va a ciclar sobre todos los posibles valores donde puede llegar a bloquearse, y se van a elegir la cantidad de bloqueos necesarios, distribuidos aleatoriamente en ese array, y luego ese va a ser el que decide ,para cada momento, si el proceso va a estar corriendo o si va a estar bloqueado. Como lo corremos con el scheduler \textbf{First Come First Served}, sabemos que no se le va a quitar nunca el privilegio del procesador, entonces el tiempo total que va a correr un lote de tareas ,de este tipo, va a ser el tiempo total de Cpu pasado por parámetro (+1) por cada tarea, mas la cantidad de veces que se va a bloquear.
+La forma de decirle cuando corre Cpu, o cuando es I/O, es simplemente recorrer el array, y verificar si antes se eligió poner   un bloqueo o un ciclo de CPU. Como no hay desalojamiento, entonces no hay cambio de contexto, salvo cuando se termina cada proceso.
+
+\section{Ejercicio 5::}
+
+\subsection{Enunciado:}
+Diseñe un lote con 3 tareas de tipo TaskCPU de 50 ciclos y 2 de tipo TaskConsola con 5 llamadas bloqueantes de 3 ciclos de duración cada una. Ejecutar y graficar la simulación utilizando el scheduler Round-Robin con quantum 2, 10 y 50. Con un cambio de contexto de 2 ciclos y un sólo núcleo calcular la latencia, el waiting time y el tiempo total de ejecución de las cinco tareas para cada quantum. ¿En cuál es mejor cada uno? ¿Por qué ocurre esto?
+
+\subsection{Resolución:}
+
+Primero, hacemos algunas aclaraciones pertinentes.En el  lote implementado, todas las tareas llegan al sistema en el ciclo inicial.
+En las tareas del tipo TaskConsola, el waiting time (por definición los ciclos que pasa la tarea en estado \textit{ready}), no incluye los ciclos que se encuentra en estado bloqueada.
+Para el running time , consideramos la cantidad de ciclos que le toma a la tarea ejecutarse, es decir desde que recibe por primera vez el cpu, hasta que finaliza por completo.
+
+\begin{flushleft}
+\textbf{Primer Caso: Quantum 2}\\
+\end{flushleft}
+
+
+A continuación se muestra la tabla que se obtiene de simular la situación planteada. Los resultados se condicen con el gráfico de la figura 5	
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea & Latencia(en ciclos)& Waiting time & Running time\\ \hline
+    Tarea0 & 	2 	&	288	&  	338 \\ \hline
+    Tarea1 &	6	&	292	& 	337 \\ \hline
+    Tarea2 &	10	&	296	&	346 \\ \hline
+    Tarea3 &	14	&	79	& 	92 \\ \hline
+    Tarea4 &	17	&	82	&	92 \\ \hline
+
+\end{tabular}
+\end{center}
+\begin{center}
+  \textit{Los valores exactos fueron extraídos desde la ejecución en consola}
+\end{center}
+
+
+\begin{flushleft}
+\textbf{Segundo Caso: Quantum 10}\\
+\end{flushleft}
+
+
+A continuación se muestra la tabla que se obtiene de simular la situación planteada. Los resultados se condicen con el gráfico de la figura 6	
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea & Latencia(en ciclos)& Waiting time & Running time\\ \hline
+    Tarea0 & 	2 	&	167	&  	212 \\ \hline
+    Tarea1 &	14	&	170	& 	203 \\ \hline
+    Tarea2 &	26	&	173	&	194 \\ \hline
+    Tarea3 &	38	&	206	& 	185 \\ \hline
+    Tarea4 &	41	&	209	&	185 \\ \hline
+
+\end{tabular}
+\end{center}
+\begin{center}
+  \textit{Los valores exactos fueron extraídos desde la ejecución en consola}
+\end{center}
+
+
+\begin{flushleft}
+\textbf{Segundo Caso: Quantum 50}\\
+\end{flushleft}
+
+A continuación se muestra la tabla que se obtiene de simular la situación planteada. Los resultados se condicen con el gráfico de la figura 7
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea & Latencia(en ciclos)& Waiting time & Running time\\ \hline
+    Tarea0 & 	2 	&	114	&  	164 \\ \hline
+    Tarea1 &	54	&	117	& 	115 \\ \hline
+    Tarea2 &	106	&	121	&	66 \\ \hline
+    Tarea3 &	158	&	178	& 	40 \\ \hline
+    Tarea4 &	161	&	181	&	41 \\ \hline
+
+\end{tabular}
+\end{center}
+\begin{center}
+  \textit{Los valores exactos fueron extraídos desde la ejecución en consola}
+\end{center}
+
+\subsection{Gráficos:}
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/quantum2.png}
+	\caption{Quantum = 2}
+\end{figure}
+
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/quantum10.png}
+	\caption{Quantum = 10}
+\end{figure}
+
+
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/quantum50.png}
+	\caption{Quantum = 50}
+\end{figure}
+	
+
+\begin{flushleft}
+\textbf{¿En cual caso es mejor cada uno de los parámetros medidos? ¿Por que ocurre esto?}\\
+
+\end{flushleft}
+
+
+Los cálculos, basados en los datos que arroja el simulador y respaldados por lo que se observa en el gráfico, nos permitirán sacar conclusiones sobre los aspectos medidos: Latencia, Waiting Time y Running Time.
+En el caso de la latencia, se ve que aumenta conforme lo hace el quantum. Es decir, en el primer caso(figura 5) la latencia es:
+\begin{center}
+$Quantum*n+ContextSwitch*(n+1)$
+\end{center}
+Donde n es la cantidad de tareas que se encuentran ,en la cola del scheduler, antes de la actual en el primer instante.
+Por ejemplo para la tarea de ID 1 seria uno porque la cero esta antes.
+Luego, como ContextSwitch esta fijo, y es 2, pero Quantum aumenta, se ve que, por esta ecuación, la latencia empeorara conforme aumenta el Quantum.
+Sin embargo, el waiting time decrece ,para todos los procesos ,del tipo TaskCPU, si el Quantum lo hace.En el segundo caso, el siguiente calculo obtiene un estimado del tiempo en espera de las TaskCPU, una vez puestas en ejecución: \\
+\begin{center}
+$Waiting \ Time = $ 
+
+$(CiclosCpu/Quantum)*(ContextSwitch*CantTareas+Quantum*2+CantTareasConIO) $
+
+\end{center}
+Esto vale durante toda su ejecución. Notar que en el caso de quantum 2, promediando los 110 ciclos la ecuación cambia, porque la CantTareas se reduce ya que las tareas con llamadas bloqueantes finalizan.
+
+ Si aumentamos el Quantum , con el ContextSwitch fijo, estaremos disminuyendo el tiempo que se "desperdicia" en hacer los cambios entre tareas, aumentando el tiempo que los procesos tienen a su disposición el cpu ,por ronda, pero ,a su vez, incrementando el waiting time entre ronda. En este caso, la combinación  resulta favorable para las tareas TaskCpu, no así para las tareas Consola, que para poder ejecutar las cinco llamadas, deberán esperar al menos 5 rondas, cuya duración aumento con respecto a las de Quantum 2.
+
+Cuando subimos el quantum a 50, observamos una situación particular. Cada tarea TaskCpu puede terminar en una ronda, por lo tanto se reducen drásticamente la cantidad de ciclos desperdiciados en los cambios de contexto, al mismo tiempo que se reduce el Waiting time, en detrimento de la latencia, como se explico anteriormente. Se ve también que la situación para las tareas Consola mejora levemente, ya que el waiting time disminuye dado que luego de realizar las dos primeras llamadas, no hay mas taras Consola en la cola del scheduler(como se observa en el gráfico, promediando el ciclo 180), por lo que pueden alternarse entre ellas y finalizar mas rápidamente las llamadas restantes.
+En conclusión, las tareas Consola obtuvieron su mejor waiting time con Quantum 2, donde el era lo suficientemente chico como para completar rápidamente sus llamadas, debido a que el tiempo esperado por ronda era menor. Esta situación, pudo verse también con Quantum = 50 sobre el final de la ejecución(por la particularidad que se explico anteriormente). Sin embargo, no fue óptimo porque también sufrieron un notable aumento en la latencia, con respecto al primer escenario.
+
+
+Como consecuencia de lo anteriormente explicado es que se obtiene un running time óptimo, para estos casos, con Quantum = 50.
+Es decir, en este ultimo escenario ,el scheduler tuvo un desempeño similar al de un FCFS(ver figura 8) que, debido a la naturaleza de las tareas elegidas, minimiza el running time.
+
+
+	
+\section{Ejercicio 6::}
+	
+\subsection{Enunciado:}
+Grafique el mismo lote de tareas del ejercicio anterior para el scheduler FCFS.
+Haciendo referencia a lo que se observa en los gráficos de este ejercicio y el anterior, explique las diferencias entre un scheduler Round-Robin y un FCFS.
+
+\subsection{Gráficos:}
+
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/ej6.png}
+	\caption{Ejercicio 5 con FCFS}
+\end{figure}
+\subsection{Resolución:}
+
+La diferencia importante entre Round Robin, y First Come First Served, es el tiempo que se pierde entre cada cambio de contexto.
+Tiene un beneficio que es el hecho de  que el tiempo en el que un proceso es bloqueado no pierde tiempo de procesamiento, pero sin embargo con 
+lo que cuesta un cambio de contexto, y mas cuando los quantums son tan chicos y el cambio de contexto tan grande, se pierde mucho tiempo
+cada vez que necesita cambiar de tarea.
+Esto se puede ver en el gráfico de quantum 2, ya que tarda tanto tiempo en cambiar el contexto de lo que se tiene de procesador, sin embargo
+cuando vamos agrandando los quantums a 10 o 50, y se mantiene el tiempo de cambio de contexto de 2, entonces se aprovecha un poco mas el procesador
+y ahí si le sirve sacárselo en tiempo de bloqueo.
+
+La mayor diferencia entre \textbf{FCFS},  y \textbf{Round Robin}, es el tiempo de latencia, ya que no se empezaran los siguientes procesos hasta no haber completado
+los anteriores, entonces se tarda demasiado en empezar a atenderlos. Sin embargo el waiting time de los primeros procesos es mas corta, pero 
+la de los últimos dos es bastante mas grande, ya que tienen que esperar a que terminen los primeros procesos, que tardan bastantes ciclos. 
+Al no perder tanto tiempo en cambio de contexto y al haber pocos bloques, o de poca duración, hace que el \textbf{FCFS} funcione mas rápido porque el tiempo
+de cambio de contexto es el mismo, y solo se pierde cuando termina cada uno de los procesos ya que no se les quita el procesador. 
+El \textbf{FCFS} tendría mas problemas si los bloqueos serian de mayor tiempo. Además, como contrapartida, esta política admite una mayor perdida de paralelismo en, al menos en este caso, en comparación con \textbf{Round Robin}
+
+	
+\end{document}
+
+	
