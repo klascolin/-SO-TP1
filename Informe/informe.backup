@@ -349,27 +349,29 @@ A continuación se muestra la tabla que se obtiene de simular la situación plan
 Los cálculos, basados en los datos que arroja el simulador y respaldados por lo que se observa en el gráfico, nos permitirán sacar conclusiones sobre los aspectos medidos: Latencia, Waiting Time y Running Time.
 En el caso de la latencia, se ve que aumenta conforme lo hace el quantum. Esto se debe a que , asumiendo que todas las tareas llegan en el instante inicial como lo hacen en los graficos, las mismas deben esperar rondas de mayor tiempo para poder comenzar a ejecutar. Tambien se podría observar, por la misma razon, que si el costo del cambio de tareas aumentase, la latencia tambien lo hará.
 
-Sin embargo, el waiting time decrece ,para todos los procesos ,del tipo TaskCPU, si el Quantum lo hace.En el segundo caso, el siguiente calculo obtiene un estimado del tiempo en espera de las TaskCPU, una vez puestas en ejecución: \\
+Sin embargo, el waiting time decrece ,para todos los procesos ,del tipo TaskCPU, si el Quantum lo hace.
+Si se define el overhead producido por los context switch(son tiempos de procesamiento "desperdiciado") como: \\
+
 \begin{center}
-$Waiting \ Time = $ 
-
-$(CiclosCpu/Quantum)*(ContextSwitch*CantTareas+Quantum*2+CantTareasConIO) $
-
+\textbf{context switch overhead} = $\frac{C}{(Q+C)}$
 \end{center}
-Esto vale durante toda su ejecución. Notar que en el caso de quantum 2, promediando los 110 ciclos la ecuación cambia, porque la CantTareas se reduce ya que las tareas con llamadas bloqueantes finalizan.
 
- Si aumentamos el Quantum , con el ContextSwitch fijo, estaremos disminuyendo el tiempo que se "desperdicia" en hacer los cambios entre tareas, aumentando el tiempo que los procesos tienen a su disposición el cpu ,por ronda, pero ,a su vez, incrementando el waiting time entre ronda. En este caso, la combinación  resulta favorable para las tareas TaskCpu, no así para las tareas Consola, que para poder ejecutar las cinco llamadas, deberán esperar al menos 5 rondas, cuya duración aumento con respecto a las de Quantum 2.
+Donde $Q$ = quantum y $C$ = costo del context switch
 
-Cuando subimos el quantum a 50, observamos una situación particular. Cada tarea TaskCpu puede terminar en una ronda, por lo tanto se reducen drásticamente la cantidad de ciclos desperdiciados en los cambios de contexto, al mismo tiempo que se reduce el Waiting time, en detrimento de la latencia, como se explico anteriormente. Se ve también que la situación para las tareas Consola mejora levemente, ya que el waiting time disminuye dado que luego de realizar las dos primeras llamadas, no hay mas taras Consola en la cola del scheduler(como se observa en el gráfico, promediando el ciclo 180), por lo que pueden alternarse entre ellas y finalizar mas rápidamente las llamadas restantes.
+Podemos ver que si  aumentamos $Q$, con el $C$, estaremos disminuyendo el tiempo que se "desperdicia" en hacer los cambios entre tareas.
+Además, como otra consecuencia, se aumentará el tiempo que los procesos tienen a su disposición el cpu antes de ser desalojados,pero ,a su vez, incrementando el waiting time entre ronda. En este caso, la combinación  resulta favorable para las tareas TaskCpu, no así para las tareas Consola, que para poder ejecutar las cinco llamadas, deberán esperar al menos 5 rondas, cuya duración aumento con respecto a las de Quantum 2.
+
+Cuando subimos el quantum a 50, observamos una situación particular. Cada tarea TaskCpu puede terminar en una ronda, por lo tanto se reducen drásticamente la cantidad de ciclos desperdiciados en los cambios de contexto, al mismo tiempo que se reduce el Waiting time, en detrimento de la latencia, como se explico anteriormente. Este escenario genera, entonces, un tiempo de respuesta ,para los procesos que no son atendidos de inmediato(como las tarea 3 y 4), mucho mayor. Esta penalidad podria no ser deseable en situaciones donde se corren tareas interactivas.
+Se ve también que la situación para las tareas Consola mejora levemente, ya que el waiting time disminuye dado que luego de realizar las dos primeras llamadas, no hay mas taras Consola en la cola del scheduler(como se observa en el gráfico, promediando el ciclo 180), por lo que pueden alternarse entre ellas y finalizar mas rápidamente las llamadas restantes.
 En conclusión, las tareas Consola obtuvieron su mejor waiting time con Quantum 2, donde el era lo suficientemente chico como para completar rápidamente sus llamadas, debido a que el tiempo esperado por ronda era menor. Esta situación, pudo verse también con Quantum = 50 sobre el final de la ejecución(por la particularidad que se explico anteriormente). Sin embargo, no fue óptimo porque también sufrieron un notable aumento en la latencia, con respecto al primer escenario.
 
 
 Como consecuencia de lo anteriormente explicado es que se obtiene un running time óptimo, para estos casos, con Quantum = 50.
-Es decir, en este ultimo escenario ,el scheduler tuvo un desempeño similar al de un FCFS(ver figura 8) que, debido a la naturaleza de las tareas elegidas, minimiza el running time.
+Es decir, en este ultimo escenario ,el scheduler tuvo un desempeño similar al de un FCFS(ver figura 8) que, debido a la naturaleza de las tareas elegidas de este caso, minimiza el running time.
 
 
 	
-\section{Ejercicio 6::}
+\section{Ejercicio 6:}
 	
 \subsection{Enunciado:}
 Grafique el mismo lote de tareas del ejercicio anterior para el scheduler FCFS.
@@ -401,7 +403,120 @@ Al no perder tanto tiempo en cambio de contexto y al haber pocos bloques, o de p
 de cambio de contexto es el mismo, y solo se pierde cuando termina cada uno de los procesos ya que no se les quita el procesador. 
 El \textbf{FCFS} tendría mas problemas si los bloqueos serian de mayor tiempo. Además, como contrapartida, esta política admite una mayor perdida de paralelismo en, al menos en este caso, en comparación con \textbf{Round Robin}
 
+\section{Ejercicio 8:}
 	
+\subsection{Enunciado:}
+Implemente un scheduler Round-Robin que no permita la migración de procesos
+entre núcleos (SchedRR2). La asignación de CPU se debe realizar en el momento en que se produce la carga de un proceso (load). El núcleo correspondiente a un nuevo proceso será aquel
+con menor cantidad de procesos activos totales (RUNNING + BLOCKED + READY). Explique un escenario real donde la migración de núcleos sea beneficiosa y uno donde no (mencione
+especificamente qué métricas de comparación vistas en la materia mejorarían en cada caso).
+Diseñe un lote de tareas en nuestro simulador que represente a cada uno de esos escenarios y grafique su resultado para cada implementación. Calcule y compare en cada gráfico las
+métrica que mencionó.
+
+
+\subsection{Gráficos:}
+A continuación se mostraran escenarios en los cuales la migracion de nucleos resulta favorable y otros en los que no ocurre.
+
+Caso 1: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantum y cantidad de nucleos.
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea &  Tipo & Instante de llegada& Tiempo De Ejecución\\ \hline
+    Tarea0 & 	TaskCpu & 0&80 \\ \hline
+    Tarea1 &	TaskCpu & 5&5 \\ \hline
+    Tarea2 &	TaskCpu & 6&30 \\ \hline
+   
+\end{tabular}
+\end{center}
+
+A continuación se muestra los calculos para las tareas que nos intersa comparar.
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea &  Running Time(Figura 9) & Waiting time(Figura 9) & Running Time(Figura 10) & Waiting time(Figura 10) \\ \hline
+    
+   
+   
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/8Migracion1.png}
+	\caption{Situacion favorable con migración. Q = 3, N = 2, Tmigracion = 3.}
+\end{figure}
+
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/8NoMigracion1.png}
+	\caption{Situacion desfavorable sin migración. Q = 3, N=2.}
+\end{figure}
+
+
+Hacer calculos y ver metricas
+
+Este pequeño ejemplo sirve para ilustrar un caso en el que la migracion de procesos resulta en un \textbf{running time} mejor para todos los procesos. 
+No solo eso, sino que también reduce el waiting time y througput como se puede observar en los calculos de arriba. La particularidad que produce este
+comportamiento, es la llegada de una tarea(Id1), de una duracion corta, justo antes de que comience a ejecutar la de Id2. Esto le otorgará el nucleo 1 a la misma,
+forzando a que la primer taread(id0) ceda el suyo(al finalizar el quantum) a la de Id2(ya que la de id1 aun no termina su quantum y no libera el nucleo). Al finalizar el quantum, la tarea de id2 se desaloja en el core cero, e ingrea la de id0. Sin embargo, como la tarea de Id1 termina pronto, el nucleo 1 quedara disponible inmediatamente para que pueda ser usado por la de id2.
+Como hay migracion, la proxima ronda que le sea concedida a la tarea de id2 sera ejecutada en este núcleo(pues el cero esta ocupado con la de id0). Esta situacion, no hubiese
+posible de no existir esta cualidad en el scheduler, provocando asi que cada tarea quede "fija"  en su nucleo. Como las mas largas fueron adjudicadas al nucleo cero inicialmente, como se ve en la figura 10,deberan continuar ejecutando en este, aunque el nucleo 1 se libere rapidamente.
+
+
+Caso 2: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantum y cantidad de nucleos.
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea &  Tipo & Instante de llegada\\ \hline
+    Tarea0 & 	TaskAlterno & 0 \\ \hline
+    Tarea1 &	TaskAlterno & 0 \\ \hline
+    Tarea2 &	TaskCpu & 8\\ \hline
+    Tarea3 &	TaskCpu & 32 \\ \hline
+    Tarea4 &	TaskCpu & 48 \\ \hline
+   
+\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/8Migracion2.png}
+	\caption{Situacion desfavorable con migración. Q = 3, N = 3, Tmigracion = 5.}
+\end{figure}
+
+
+\begin{figure}[H]
+  	\centering
+   	\includegraphics[width=1\textwidth]
+   	 {imgs/8NoMigracion2.png}
+	\caption{Situacion favorable sin migración. Q = 3, N=3.}
+\end{figure}
+
+En este ejemplo,se ilustra un caso que desfavorece a la migracion de nucleos. Notemos que existe una penalidad de tiempo(costo de migracion)que se suma cada vez que
+un proceso cambia de nucleo. Al igual que el tiempo de cambio de tarea(context switch), es un intervalo en el que el cpu no hace ningun trabajo "util" para algun proceso.
+La situacion que se plantea, en este caso , muestra que el intercambio constante de nucleos, para un proceso, puede terminar siendo desventajoso.
+Basicamente, hay dos tareas, que se bloquean alternadamente con cierto desfazaje, con una duracion mayor a las ultimas tres . Se da que cada que cuando la tarea de id0 se encuentra  bloqueada, llega una nueva tarea TaskCpu. En ese instante, se le asiganara siempre  el primer nucleo disponible(que es el cero, porque la tarea que estaba ejecutando se bloqueó).
+Esto provocará que entonces, cuando la primera retome la ejecucion lo haga en el  nucleo 1(pues el cero seguira ocupado) y por esta misma razon, cuando la segunda vuelva a su estado de  "ready" solo podra tomar el nucleo 2(porque aun las otras tienen tomado los demás cores). Esta particularidad forzó que las dos primeras tareas migraran sus nucleos, pero no trajo ningun beneficio ,si no lo contrario. De esta manera, iran llegando otras dos tareas que surtan el mismo efecto sobre las dos primeras, las de id0 y id1.
+
+Si se actua sin migracion, se da lo que uno esperaria en un principio. Cuando llega una tarea cortas, como hay un nucleo disponible y las taras de id1 y id2 estan fijas en la cola de tareas del nucleo cero y uno, se le otorga el core restante(el dos). Esto "paralelizara" las tareas de una forma mas eficiente, decrementando el waiting time, running time y throughput como se ve en los calculos.
+
+
+ACA PUEDEN PONER LOS OTROS QUE HABIAN PENSADO, YO AGREGUE ESTOS DOS NADA MAS!!!
+
+
+
+\subsection{Resolución:}
+
+Para implementar el scheduler referido en el enunciado blablabla
+(Aca viene la explicacion del codigo. Basicamente mencionar como difiere de la otra implementacion)
+
+
 \end{document}
 
 	

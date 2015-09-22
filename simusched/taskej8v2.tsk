@@ -1,0 +1,8 @@
+TaskAlterno 5 2 5 2 5 2 2 2 3
+TaskAlterno 7 2 5 2 5 2 2 2 3
+@8:
+TaskCPU 5
+@32:
+TaskCPU 5
+@48:
+TaskCPU 2

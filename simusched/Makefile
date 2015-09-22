@@ -29,6 +29,11 @@ ejercicio5:
 ejercicio6:
 	mkdir ejercicio6
 	./simusched taskEj5.tsk 1 2 1 SchedFCFS   | ./graphsched.py > ./ejercicio6/ej6.png
+ejercicio8:
+	mkdir ejercicio8
+	./simusched taskej8.tsk 2 1 3 SchedRR 3 | ./graphsched.py > ./ejercicio8/8Migracion.png
+	./simusched taskej8.tsk 2 1 3 SchedRR2 3 | ./graphsched.py > ./ejercicio8/8NoMigracion.png
+
 
 $(MAIN): $(OBJS) sched_mistery.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)

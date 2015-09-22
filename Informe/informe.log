@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.3)  19 SEP 2015 14:28
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.3)  22 SEP 2015 00:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -373,9 +373,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \listing@line=\count95
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-2015919868.tex)...disabled (restricted).
+runsystem(touch w18-test-201592259.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2015919868.tex)...disabled (restricted).
+runsystem(rm -f w18-test-201592259.tex)...disabled (restricted).
 
 
 
@@ -733,31 +733,65 @@ File: imgs/ej6.png Graphic file (type png)
  <use imgs/ej6.png>
 Package pdftex.def Info: imgs/ej6.png used on input line 386.
 (pdftex.def)             Requested size: 441.01772pt x 93.1828pt.
- [9 <./imgs/ej6.png (PNG copy)>] 
+ [9 <./imgs/ej6.png (PNG copy)>]
+Overfull \hbox (15.45522pt too wide) in paragraph at lines 409--415
+[]\OT1/cmr/m/n/10 Implemente un sched-uler Round-Robin que no per-mita la mi-gr
+aci^^Son de pro-ce-sos en-tre n^^Sucleos (SchedRR2).
+ []
+
+<imgs/8Migracion1.png, id=49, 1030.85126pt x 187.70125pt>
+File: imgs/8Migracion1.png Graphic file (type png)
+
+<use imgs/8Migracion1.png>
+Package pdftex.def Info: imgs/8Migracion1.png used on input line 460.
+(pdftex.def)             Requested size: 441.01772pt x 80.3004pt.
+
+<imgs/8NoMigracion1.png, id=50, 1030.85126pt x 187.70125pt>
+File: imgs/8NoMigracion1.png Graphic file (type png)
+
+<use imgs/8NoMigracion1.png>
+Package pdftex.def Info: imgs/8NoMigracion1.png used on input line 468.
+(pdftex.def)             Requested size: 441.01772pt x 80.3004pt.
+ [10 <./imgs/8Migracion1.png (PNG copy)>]
+<imgs/8Migracion2.png, id=54, 1030.85126pt x 247.92625pt>
+File: imgs/8Migracion2.png Graphic file (type png)
+
+<use imgs/8Migracion2.png>
+Package pdftex.def Info: imgs/8Migracion2.png used on input line 501.
+(pdftex.def)             Requested size: 441.01772pt x 106.06523pt.
+
+<imgs/8NoMigracion2.png, id=55, 1030.85126pt x 247.92625pt>
+File: imgs/8NoMigracion2.png Graphic file (type png)
+
+<use imgs/8NoMigracion2.png>
+Package pdftex.def Info: imgs/8NoMigracion2.png used on input line 509.
+(pdftex.def)             Requested size: 441.01772pt x 106.06523pt.
+ [11 <./imgs/8NoMigracion1.png (PNG copy)> <./imgs/8Migracion2.png (PNG copy)>]
+ 
 AED: lastpage setting LastPage
-[10] (./informe.aux) ) 
+[12 <./imgs/8NoMigracion2.png (PNG copy)>] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 6732 strings out of 495028
- 94971 string characters out of 6181498
+ 6752 strings out of 495028
+ 95446 string characters out of 6181498
  179505 words of memory out of 5000000
- 9762 multiletter control sequences out of 15000+600000
+ 9778 multiletter control sequences out of 15000+600000
  8295 words of font info for 34 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  38i,11n,43p,661b,282s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on informe.pdf (10 pages, 215270 bytes).
+</usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on informe.pdf (12 pages, 258745 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
+ 95 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
