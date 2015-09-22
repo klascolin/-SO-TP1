@@ -409,15 +409,15 @@ El \textbf{FCFS} tendría mas problemas si los bloqueos serian de mayor tiempo. 
 Implemente un scheduler Round-Robin que no permita la migración de procesos
 entre núcleos (SchedRR2). La asignación de CPU se debe realizar en el momento en que se produce la carga de un proceso (load). El núcleo correspondiente a un nuevo proceso será aquel
 con menor cantidad de procesos activos totales (RUNNING + BLOCKED + READY). Explique un escenario real donde la migración de núcleos sea beneficiosa y uno donde no (mencione
-especificamente qué métricas de comparación vistas en la materia mejorarían en cada caso).
+específicamente qué métricas de comparación vistas en la materia mejorarían en cada caso).
 Diseñe un lote de tareas en nuestro simulador que represente a cada uno de esos escenarios y grafique su resultado para cada implementación. Calcule y compare en cada gráfico las
 métrica que mencionó.
 
 
 \subsection{Gráficos:}
-A continuación se mostraran escenarios en los cuales la migracion de nucleos resulta favorable y otros en los que no ocurre.
+A continuación se mostraran escenarios en los cuales la migración de núcleos resulta favorable y otros en los que no ocurre.
 
-Caso 1: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantum y cantidad de nucleos.
+Caso 1: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantum y cantidad de núcleos.
 
 \begin{center}
 \begin{tabular}{| l | l | l | l |}
@@ -430,23 +430,34 @@ Caso 1: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantu
 \end{tabular}
 \end{center}
 
-A continuación se muestra los calculos para las tareas que nos intersa comparar.
+A continuación se muestra los cálculos,que se desprenden de los gráficos de la figura 9 y 10, para las tareas que nos interesa comparar.
 
 \begin{center}
 \begin{tabular}{| l | l | l | l |}
     \hline
-    IDtarea &  Running Time(Figura 9) & Waiting time(Figura 9) & Running Time(Figura 10) & Waiting time(Figura 10) \\ \hline
-    
-   
+    IDtarea &  Running Time(Figura 9) & Waiting time(Figura 9)\\ \hline
+    Tarea0 & 	87 & 6   \\ \hline
+    Tarea1 &	39 & 7 \\ \hline
    
 \end{tabular}
 \end{center}
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea &  Running Time(Figura 10) & Waiting time(Figura 10)\\ \hline
+    Tarea0 & 	 136 & 53 \\ \hline
+    Tarea1 &	84 & 52 \\ \hline
+   
+\end{tabular}
+\end{center}
+
 
 \begin{figure}[H]
   	\centering
    	\includegraphics[width=1\textwidth]
    	 {imgs/8Migracion1.png}
-	\caption{Situacion favorable con migración. Q = 3, N = 2, Tmigracion = 3.}
+	\caption{Situación favorable con migración. Q = 3, N = 2, Tmigracion = 3.}
 \end{figure}
 
 
@@ -454,21 +465,20 @@ A continuación se muestra los calculos para las tareas que nos intersa comparar
   	\centering
    	\includegraphics[width=1\textwidth]
    	 {imgs/8NoMigracion1.png}
-	\caption{Situacion desfavorable sin migración. Q = 3, N=2.}
+	\caption{Situación desfavorable sin migración. Q = 3, N=2.}
 \end{figure}
 
 
-Hacer calculos y ver metricas
 
-Este pequeño ejemplo sirve para ilustrar un caso en el que la migracion de procesos resulta en un \textbf{running time} mejor para todos los procesos. 
-No solo eso, sino que también reduce el waiting time y througput como se puede observar en los calculos de arriba. La particularidad que produce este
-comportamiento, es la llegada de una tarea(Id1), de una duracion corta, justo antes de que comience a ejecutar la de Id2. Esto le otorgará el nucleo 1 a la misma,
-forzando a que la primer taread(id0) ceda el suyo(al finalizar el quantum) a la de Id2(ya que la de id1 aun no termina su quantum y no libera el nucleo). Al finalizar el quantum, la tarea de id2 se desaloja en el core cero, e ingrea la de id0. Sin embargo, como la tarea de Id1 termina pronto, el nucleo 1 quedara disponible inmediatamente para que pueda ser usado por la de id2.
-Como hay migracion, la proxima ronda que le sea concedida a la tarea de id2 sera ejecutada en este núcleo(pues el cero esta ocupado con la de id0). Esta situacion, no hubiese
-posible de no existir esta cualidad en el scheduler, provocando asi que cada tarea quede "fija"  en su nucleo. Como las mas largas fueron adjudicadas al nucleo cero inicialmente, como se ve en la figura 10,deberan continuar ejecutando en este, aunque el nucleo 1 se libere rapidamente.
+Este pequeño ejemplo sirve para ilustrar un caso en el que la migración de procesos resulta en un \textbf{running time} mejor para todos los procesos. 
+No solo eso, sino que también reduce el \textbf{waiting time}. La particularidad que produce este comportamiento, es la llegada de una tarea(\textbf{Id1}), de una duración corta, justo antes de que comience a ejecutar la de \textbf{Id2}. Esto le otorgará el núcleo 1 a la misma,
+forzando a que la primer tarea(\textbf{Id0}) ceda el suyo(al finalizar el quantum) a la de \textbf{Id2}(ya que la de \textbf{Id1} aun no habrá terminado su quantum y no habrá libera el núcleo). Al finalizar el quantum, la tarea de \textbf{Id2} se desaloja en el core cero, e ingresa la de \textbf{Id0}. Sin embargo, como la tarea de \textbf{Id1} termina pronto, el núcleo 1 quedara disponible inmediatamente para que pueda ser usado por la de \textbf{Id2}.
+Como hay migración, la próxima ronda que le sea concedida a la tarea de \textbf{Id2} sera ejecutada en este núcleo(pues el cero esta ocupado con la de \textbf{Id0}). Esta situación, no hubiese
+posible de no existir esta cualidad en el scheduler, provocando así que cada tarea quede "fija"  en su núcleo.Este hecho queda evidenciado en la figura 10. 
+Como las mas largas fueron adjudicadas al núcleo cero inicialmente, como se ve en el gráfico,deberán continuar ejecutando en este, aunque el núcleo 1 se libere rápidamente.
 
 
-Caso 2: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantum y cantidad de nucleos.
+Caso 2: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantum y cantidad de núcleos.
 
 \begin{center}
 \begin{tabular}{| l | l | l | l |}
@@ -483,11 +493,34 @@ Caso 2: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantu
 \end{tabular}
 \end{center}
 
+A continuación se muestra los cálculos,que se desprenden de los gráficos de la figura 10 y 11, para las tareas que nos interesa comparar.
+
+\begin{center}
+Figura 11
+\begin{tabular}{| l | l | l | l |}    
+    \hline
+    IDtarea &  Running Time(Figura 11) & Waiting time(Figura 11)\\ \hline
+    Tarea0 & 	64 & 31   \\ \hline
+    Tarea1 &	60 & 25 \\ \hline
+   
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{| l | l | l | l |}
+    \hline
+    IDtarea &  Running Time(Figura 12) & Waiting time(Figura 12)\\ \hline
+    Tarea0 & 	38 & 5 \\ \hline
+    Tarea1 &	40 & 5 \\ \hline
+   
+\end{tabular}
+\end{center}
+
 \begin{figure}[H]
   	\centering
    	\includegraphics[width=1\textwidth]
    	 {imgs/8Migracion2.png}
-	\caption{Situacion desfavorable con migración. Q = 3, N = 3, Tmigracion = 5.}
+	\caption{Situación desfavorable con migración. Q = 3, N = 3, Tmigracion = 5.}
 \end{figure}
 
 
@@ -495,19 +528,18 @@ Caso 2: Ambos schedulers corren el siguiente lote de tareas, con el mismo quantu
   	\centering
    	\includegraphics[width=1\textwidth]
    	 {imgs/8NoMigracion2.png}
-	\caption{Situacion favorable sin migración. Q = 3, N=3.}
+	\caption{Situación favorable sin migración. Q = 3, N=3.}
 \end{figure}
 
-En este ejemplo,se ilustra un caso que desfavorece a la migracion de nucleos. Notemos que existe una penalidad de tiempo(costo de migracion)que se suma cada vez que
-un proceso cambia de nucleo. Al igual que el tiempo de cambio de tarea(context switch), es un intervalo en el que el cpu no hace ningun trabajo "util" para algun proceso.
-La situacion que se plantea, en este caso , muestra que el intercambio constante de nucleos, para un proceso, puede terminar siendo desventajoso.
-Basicamente, hay dos tareas, que se bloquean alternadamente con cierto desfazaje, con una duracion mayor a las ultimas tres . Se da que cada que cuando la tarea de id0 se encuentra  bloqueada, llega una nueva tarea TaskCpu. En ese instante, se le asiganara siempre  el primer nucleo disponible(que es el cero, porque la tarea que estaba ejecutando se bloqueó).
-Esto provocará que entonces, cuando la primera retome la ejecucion lo haga en el  nucleo 1(pues el cero seguira ocupado) y por esta misma razon, cuando la segunda vuelva a su estado de  "ready" solo podra tomar el nucleo 2(porque aun las otras tienen tomado los demás cores). Esta particularidad forzó que las dos primeras tareas migraran sus nucleos, pero no trajo ningun beneficio ,si no lo contrario. De esta manera, iran llegando otras dos tareas que surtan el mismo efecto sobre las dos primeras, las de id0 y id1.
+En este ejemplo,se ilustra un caso que desfavorece a la migración de núcleos. Notemos que existe una penalidad de tiempo(costo de migración)que se suma cada vez que
+un proceso cambia de núcleo. Al igual que el tiempo de cambio de tarea(context switch), es un intervalo en el que el cpu no hace ningún trabajo "útil" para algún proceso.
+La situación que se plantea, en este caso , muestra que el intercambio constante de núcleos, para un proceso, puede terminar siendo desventajoso.
+Básicamente, hay dos tareas, que se bloquean alternadamente con cierto desfase, con una duración mayor a las ultimas tres . Se da que cada que cuando la tarea de \textbf{id0} se encuentra  bloqueada, llega una nueva tarea \textbf{TaskCpu}. En ese instante, se le asignará siempre  el primer núcleo disponible(que es el cero, porque la tarea que estaba ejecutando se bloqueó).
+Esto provocará que entonces, cuando la primera retome la ejecución lo haga en el  núcleo 1(pues el cero seguirá ocupado) y por esta misma razón, cuando la segunda vuelva a su estado de  "ready" solo podrá tomar el núcleo 2(porque aun las otras tienen tomado los demás cores). Esta particularidad forzó que las dos primeras tareas migraran sus núcleos, pero no trajo ningún beneficio ,si no lo contrario. De esta manera, iran llegando otras dos tareas que surtan el mismo efecto sobre las dos primeras, las de \textbf{id0 y id1}.
 
-Si se actua sin migracion, se da lo que uno esperaria en un principio. Cuando llega una tarea cortas, como hay un nucleo disponible y las taras de id1 y id2 estan fijas en la cola de tareas del nucleo cero y uno, se le otorga el core restante(el dos). Esto "paralelizara" las tareas de una forma mas eficiente, decrementando el waiting time, running time y throughput como se ve en los calculos.
+Si se actúa sin migración, se da lo que uno esperaría en un principio. Cuando llega una tarea corta, como hay un núcleo disponible y las taras de \textbf{id1 y id2} están fijas en la cola de tareas del núcleo cero y uno respectivamente, se le otorga el core restante(el dos). Esto "paralelizara" las tareas de una forma mas eficiente, decrementando el \textbf{waiting time y running time}.
 
-
-ACA PUEDEN PONER LOS OTROS QUE HABIAN PENSADO, YO AGREGUE ESTOS DOS NADA MAS!!!
+PUEDEN PONER LOS OTROS QUE HABIAN PENSADO, YO AGREGUE ESTOS DOS NADA MAS!!!
 
 
 

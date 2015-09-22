@@ -33,7 +33,8 @@ ejercicio8:
 	mkdir ejercicio8
 	./simusched taskej8.tsk 2 1 3 SchedRR 3 | ./graphsched.py > ./ejercicio8/8Migracion.png
 	./simusched taskej8.tsk 2 1 3 SchedRR2 3 | ./graphsched.py > ./ejercicio8/8NoMigracion.png
-
+	./simusched taskej8v2.tsk 3 1 5 SchedRR 3 | ./graphsched.py > ./ejercicio8/8NoMigracion2.png
+	./simusched taskej8v2.tsk 3 1 5 SchedRR2 3 | ./graphsched.py > ./ejercicio8/8Migracion2.png
 
 $(MAIN): $(OBJS) sched_mistery.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)

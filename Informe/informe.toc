@@ -21,4 +21,4 @@
 \contentsline {section}{\numberline {6}Ejercicio 8:}{10}
 \contentsline {subsection}{\numberline {6.1}Enunciado:}{10}
 \contentsline {subsection}{\numberline {6.2}Gr\IeC {\'a}ficos:}{10}
-\contentsline {subsection}{\numberline {6.3}Resoluci\IeC {\'o}n:}{12}
+\contentsline {subsection}{\numberline {6.3}Resoluci\IeC {\'o}n:}{13}
