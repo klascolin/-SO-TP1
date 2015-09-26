@@ -20,14 +20,18 @@ class SchedNoMistery : public SchedBase {
             momento=y;
         }
     }tupla;
-    int terminadas;
+
+    
+    int corrio; //El tiempo que lleva corriendo la tarea actual
+
+    std::vector<std::queue<int> > colas;  //colas de prioridad
+    
     std::vector<int> quantum;   //Tiene todos los quantum que nos pasan por parametro
-    std::vector<int> lista;     //Va a tener todas las tareas que estan corriendo y no estan bloqueadas
-    std::queue<int> colaBloq;   //Va a tener a las tareas que se fueron desbloqueando
-    int actual;                 //Es la posicion en la lista de la tarea que se esta corriendo en el momento
-    std::vector<tupla> tareas; //Tiene el pid y el quantum actual
-    std::vector<tupla> contador;    //Tiene el pid y un contador de cuantas veces se corrio
-	std::queue<int> nuevos;
+    
+  
+    std::vector<int> colaXtarea; //En que cola esta cada tarea
+
+	
 };
 
 #endif

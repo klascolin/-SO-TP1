@@ -29,6 +29,13 @@ ejercicio5:
 ejercicio6:
 	mkdir ejercicio6
 	./simusched taskEj5.tsk 1 2 1 SchedFCFS   | ./graphsched.py > ./ejercicio6/ej6.png
+ejercicio7:
+	mkdir ejercicio7
+	./simusched mistery2.tsk 1 1 1 SchedMistery  2 5 7  | ./graphsched.py  > ./ejercicio7/mistery1.png
+	./simusched taskmistery.tsk 1 1 1 SchedMistery  2 5 7  | ./graphsched.py  > ./ejercicio7/mistery2.png
+	./simusched taskMistery3.tsk 1 1 1 SchedMistery  2 5 7  | ./graphsched.py  > ./ejercicio7/mistery3.png
+
+
 ejercicio8:
 	mkdir ejercicio8
 	./simusched taskej8.tsk 2 1 3 SchedRR 3 | ./graphsched.py > ./ejercicio8/8Migracion.png

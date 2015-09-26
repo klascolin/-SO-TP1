@@ -1,0 +1,32 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Ejercicio 1:}{4}
+\contentsline {subsection}{\numberline {1.1}Enunciado:}{4}
+\contentsline {subsection}{\numberline {1.2}Resoluci\IeC {\'o}n:}{4}
+\contentsline {subsection}{\numberline {1.3}Gr\IeC {\'a}ficos:}{4}
+\contentsline {section}{\numberline {2}Ejercicio 2:}{5}
+\contentsline {subsection}{\numberline {2.1}Enunciado:}{5}
+\contentsline {subsection}{\numberline {2.2}Resoluci\IeC {\'o}n:}{5}
+\contentsline {subsection}{\numberline {2.3}Gr\IeC {\'a}ficos:}{6}
+\contentsline {section}{\numberline {3}Ejercicio 3:}{6}
+\contentsline {subsection}{\numberline {3.1}Enunciado:}{6}
+\contentsline {subsection}{\numberline {3.2}Gr\IeC {\'a}ficos:}{7}
+\contentsline {subsection}{\numberline {3.3}Resoluci\IeC {\'o}n:}{7}
+\contentsline {section}{\numberline {4}Ejercicio 4:}{7}
+\contentsline {subsection}{\numberline {4.1}Enunciado:}{7}
+\contentsline {subsection}{\numberline {4.2}Resoluci\IeC {\'o}n:}{7}
+\contentsline {section}{\numberline {5}Ejercicio 5:}{8}
+\contentsline {subsection}{\numberline {5.1}Enunciado:}{8}
+\contentsline {subsection}{\numberline {5.2}Resoluci\IeC {\'o}n:}{8}
+\contentsline {subsection}{\numberline {5.3}Gr\IeC {\'a}ficos:}{9}
+\contentsline {section}{\numberline {6}Ejercicio 6:}{11}
+\contentsline {subsection}{\numberline {6.1}Enunciado:}{11}
+\contentsline {subsection}{\numberline {6.2}Gr\IeC {\'a}ficos:}{11}
+\contentsline {subsection}{\numberline {6.3}Resoluci\IeC {\'o}n:}{11}
+\contentsline {section}{\numberline {7}Ejercicio 7:}{12}
+\contentsline {subsection}{\numberline {7.1}Enunciado:}{12}
+\contentsline {subsection}{\numberline {7.2}Gr\IeC {\'a}ficos:}{12}
+\contentsline {subsection}{\numberline {7.3}Resoluci\IeC {\'o}n:}{13}
+\contentsline {section}{\numberline {8}Ejercicio 8:}{13}
+\contentsline {subsection}{\numberline {8.1}Enunciado:}{13}
+\contentsline {subsection}{\numberline {8.2}Gr\IeC {\'a}ficos:}{14}
+\contentsline {subsection}{\numberline {8.3}Resoluci\IeC {\'o}n:}{16}

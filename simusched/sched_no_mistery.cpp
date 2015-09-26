@@ -7,208 +7,94 @@ using namespace std;
 
 SchedNoMistery::SchedNoMistery(vector<int> argn) {
 
-	actual=-1;  //Al principio no hay ninguna corriendo
+	//Resizeamos el tamaño de cada vector()
 	quantum.resize(argn.size());
+	colas.resize(argn.size());
+	colaXtarea.resize(argn.size());
+
+	
+	//Inicializamos el vector de quantum:
 	quantum[0]=1;      //Siempre el primer quantum es de 1
 	unsigned int i=1;
-	terminadas = 0;
 	while(i<argn.size()){
 		quantum[i]=argn[i]; //Inicializo el resto
 		i++;
 	}
+
 }
 
 void SchedNoMistery::load(int pid) {
-    lista.push_back(pid);   //Lo agrego al final de la lista
-    nuevos.push(pid);
-    tupla *t= new tupla(pid,0);
-    tareas.insert(tareas.begin()+pid,*t);   //Al principio la tarea tiene quantum 0
-    tupla *n= new tupla(pid,0);
-    contador.insert(contador.begin()+pid,*n);   //Al principio se corrio 0 veces
+   
+   
+    colaXtarea.push_back(0);   //Al principio esta en la cola 0
+    colas[0].push(pid);			//Siempre que llega una tarea, va a la cola de maxima prioridad(q = 1)
 }
 
 void SchedNoMistery::unblock(int pid) {
-	colaBloq.push(pid);
-	lista.push_back(pid);
-	//~ int i=0;
-	//~ cout<<"lista des ";
-	//~ while(i<lista.size()){
-	//~ cout<<lista[i]<<" ";
-	//~ i++;
-	//~ }
-	//~ cout<<""<<endl;
-	//actual=actual%lista.size();
+		if(colaXtarea[pid] > 0)
+			colaXtarea[pid]--;
+		else
+			colaXtarea[pid] = 0;
+
+		colas[colaXtarea[pid]].push(pid);
+		
 }
 
-int SchedNoMistery::tick(int cpu, const enum Motivo m) {
-    //~ cout<<"lista"<<lista.size()<<endl;
-    //~ cout<<"actual: "<<lista[actual]<< endl;
-    if(m==EXIT){
-		terminadas ++ ;
-		int i=0;
-		while(i<lista.size()){
-			if(current_pid(cpu)==lista[i]){
-				break;
-			}
-			i++;
-		}
-		lista.erase(lista.begin()+i);
-		if(lista.size() != 0){
-			actual=actual%lista.size();
-		}
+ 	int SchedNoMistery::tick(int cpu, const enum Motivo m) {
+	//cout<< cola.front() <<endl;
+	if (m == EXIT || m== BLOCK) {
 		// Si el pid actual terminó, sigue el próximo.
-		if(!nuevos.empty()){
-            int sig = nuevos.front();
-			nuevos.pop();
-			tareas[sig].momento=0;
-			return sig;
-		}
-		else if(!colaBloq.empty()){
-            int sig = colaBloq.front();
-			colaBloq.pop();
-			contador[sig].momento --;
-			if(contador[sig].momento > 0){
-				contador[sig].momento --;
+		for(int i = 0;i<colas.size();i++){	
+			if (!colas[i].empty()){
+				int sig = colas[i].front(); 
+				colas[i].pop();
+				corrio=0;
+				return sig;
 			}
-			unsigned int j=contador[sig].momento;
-			tareas[sig].momento=quantum[j]-1;
-			return sig;
 		}
-		else if(lista.size() !=0){
-            int sig=lista[actual];
-            tareas[sig].momento=0;
-            return sig;
-        }
-        else if(lista.size() ==0 && colaBloq.empty() && nuevos.empty()){
-            return IDLE_TASK;
-        }
+		
+		//Devolvemos la idle si todas vacias
 
-	}
+		return IDLE_TASK;	
+	} 
 	else if(m == TICK){
-		//Si no hay ninguna corriendo pero hay en la cola corro la primera
-        if (nuevos.empty()&& colaBloq.empty() && lista.empty()) {
-			//cout << terminadas <<endl;
+		if(current_pid(cpu) == IDLE_TASK){
+			for(int i = 0;i<colas.size();i++){	
+				if(!colas[i].empty()){
+					int sig = colas[i].front(); 
+					colas[i].pop();
+					corrio=0;
+					return sig;
+				}			
+			}
 			return IDLE_TASK;
-        }
-        else if (current_pid(cpu) == IDLE_TASK && !nuevos.empty()){
-            int sig = nuevos.front();
-            nuevos.pop();
-            tareas[sig].momento=0;
-            return sig;
 		}
-        else if (current_pid(cpu) == IDLE_TASK && !colaBloq.empty()){
-            int sig = colaBloq.front();
-            colaBloq.pop();
-            contador[sig].momento --;
-            if(contador[sig].momento > 0){
-				contador[sig].momento --;
-			}
-			unsigned int j=contador[sig].momento;
-			if(quantum[j] - 1 != 0){
-				tareas[sig].momento=quantum[j]-1;
-			}else{
-				tareas[sig].momento = 1;
-			}
-			
-			//cout << " Empieza con quantumm: "<< tareas[sig].momento << " en la tarea: "<<sig <<endl;
-            return sig;
-		}
-		else if(current_pid(cpu) == IDLE_TASK && !lista.empty()){
-            actual=(actual+1)%lista.size();
-			int sig=lista[actual];
-			tareas[sig].momento=0;
-			return sig;
-		}
-		//Aumento el quantum actual
-		tareas[current_pid(cpu)].momento=tareas[current_pid(cpu)].momento+1;
-		unsigned int j=contador[current_pid(cpu)].momento;
-		if (tareas[current_pid(cpu)].momento==quantum[j]) {
-			if(j<quantum.size()-1){
-            contador[current_pid(cpu)].momento=contador[current_pid(cpu)].momento+1;
-			}
-			if(!nuevos.empty()){
-				int sig = nuevos.front();
-				nuevos.pop();
-				tareas[sig].momento=0;
-				return sig;
-			}
-			if(!colaBloq.empty()){
-				int sig = colaBloq.front();
-				colaBloq.pop();
-				contador[sig].momento --;
-				if(contador[sig].momento > 0){
-				contador[sig].momento --;
+		//Recorremos todas las colas en orden	
+		corrio++;
+		if (corrio == quantum[colaXtarea[current_pid(cpu)]]) {	
+				if(colaXtarea[current_pid(cpu)] == colas.size()-1)
+					colas[colaXtarea[current_pid(cpu)]].push(current_pid(cpu));
+				else{
+					colas[colaXtarea[current_pid(cpu)]+1].push(current_pid(cpu));
+					colaXtarea[current_pid(cpu)]=colaXtarea[current_pid(cpu)]+1;
 				}
-				unsigned int j=contador[sig].momento;
-				tareas[sig].momento=quantum[j]-1;
-				return sig;
-			}
-			else if(!lista.empty()){
-                actual=(actual+1)%lista.size();
-                int sig=lista[actual];
-                tareas[sig].momento=0;
-                return sig;
-            }
-			else{
-				tareas[current_pid(cpu)].momento=0;
-				return current_pid(cpu);
-			}
-		}
+				
+				for(int j = 0; j<colas.size();j++){
+					if(!colas[j].empty()){
+						int sig = colas[j].front();
+						colas[j].pop();
+						corrio=0;
+						return sig;
+					}
+				}
+				
+		}	
 		else{
 			return current_pid(cpu);
-		}
-	}
-    else if(m== BLOCK){
-		unsigned int j=contador[current_pid(cpu)].momento;
-		if(j<quantum.size()-1){
-            contador[current_pid(cpu)].momento=contador[current_pid(cpu)].momento+1;
-		}
 	
-		int k=0;
-		while(k<lista.size()){
-			if(current_pid(cpu)==lista[k]){
-				break;
-			}
-			k++;
 		}
-		lista.erase(lista.begin()+k);
 		
-		int i=0;
-		cout<<"lista bloq ";
-		while(i<lista.size()){
-			cout<<lista[i]<<" ";
-			i++;
-		}
-		cout<<""<<endl;
-         
-        if(lista.size() != 0){
-			actual=(actual+1)%lista.size();
-		}
-        if(!nuevos.empty()){
-				int sig = nuevos.front();
-				nuevos.pop();
-				tareas[sig].momento=0;
-				return sig;
-		}
-        else if(!colaBloq.empty()){
-				int sig = colaBloq.front();
-				colaBloq.pop();
-				tareas[sig].momento=0;
-				return sig;
-			}
-        else if(!lista.empty()){
-
-            int sig=lista[actual];
-            tareas[sig].momento=0;
-            return sig;
-        }else{
-			return IDLE_TASK;
-		}
-    }
-    else{
-        return current_pid(cpu);
-    }
-    return IDLE_TASK;
+	}
+	
+	return IDLE_TASK;
 }
-
-
