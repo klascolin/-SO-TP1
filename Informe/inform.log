@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.3)  26 SEP 2015 15:48
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.5.3)  27 SEP 2015 19:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -373,9 +373,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \listing@line=\count95
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-2015926948.tex)...disabled (restricted).
+runsystem(touch w18-test-20159271153.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2015926948.tex)...disabled (restricted).
+runsystem(rm -f w18-test-20159271153.tex)...disabled (restricted).
 
 
 
@@ -738,22 +738,22 @@ Package pdftex.def Info: imgs/ej6.png used on input line 400.
 File: imgs/mistery2.png Graphic file (type png)
 
 <use imgs/mistery2.png>
-Package pdftex.def Info: imgs/mistery2.png used on input line 439.
+Package pdftex.def Info: imgs/mistery2.png used on input line 438.
 (pdftex.def)             Requested size: 441.01772pt x 67.41797pt.
  <imgs/mistery3.png, id=56, 1030.85126pt x 157.58875pt>
 File: imgs/mistery3.png Graphic file (type png)
 
 <use imgs/mistery3.png>
-Package pdftex.def Info: imgs/mistery3.png used on input line 450.
+Package pdftex.def Info: imgs/mistery3.png used on input line 449.
 (pdftex.def)             Requested size: 441.01772pt x 67.41797pt.
  <imgs/mistery1.png, id=57, 1030.85126pt x 127.47626pt>
 File: imgs/mistery1.png Graphic file (type png)
 
 <use imgs/mistery1.png>
-Package pdftex.def Info: imgs/mistery1.png used on input line 461.
+Package pdftex.def Info: imgs/mistery1.png used on input line 460.
 (pdftex.def)             Requested size: 441.01772pt x 54.53555pt.
  [12 <./imgs/mistery2.png (PNG copy)> <./imgs/mistery3.png (PNG copy)>]
-Overfull \hbox (15.45522pt too wide) in paragraph at lines 478--484
+Overfull \hbox (15.45522pt too wide) in paragraph at lines 482--488
 []\OT1/cmr/m/n/10 Implemente un sched-uler Round-Robin que no per-mita la mi-gr
 aci^^Son de pro-ce-sos en-tre n^^Sucleos (SchedRR2).
  []
@@ -763,14 +763,14 @@ aci^^Son de pro-ce-sos en-tre n^^Sucleos (SchedRR2).
 File: imgs/8Migracion1.png Graphic file (type png)
 
 <use imgs/8Migracion1.png>
-Package pdftex.def Info: imgs/8Migracion1.png used on input line 544.
+Package pdftex.def Info: imgs/8Migracion1.png used on input line 548.
 (pdftex.def)             Requested size: 441.01772pt x 80.3004pt.
 
 <imgs/8NoMigracion1.png, id=66, 1030.85126pt x 187.70125pt>
 File: imgs/8NoMigracion1.png Graphic file (type png)
 
 <use imgs/8NoMigracion1.png>
-Package pdftex.def Info: imgs/8NoMigracion1.png used on input line 552.
+Package pdftex.def Info: imgs/8NoMigracion1.png used on input line 556.
 (pdftex.def)             Requested size: 441.01772pt x 80.3004pt.
  [14 <./imgs/8Migracion1.png (PNG copy)> <./imgs/8NoMigracion1.png (PNG copy)>]
 
@@ -778,14 +778,14 @@ Package pdftex.def Info: imgs/8NoMigracion1.png used on input line 552.
 File: imgs/8Migracion2.png Graphic file (type png)
 
 <use imgs/8Migracion2.png>
-Package pdftex.def Info: imgs/8Migracion2.png used on input line 635.
+Package pdftex.def Info: imgs/8Migracion2.png used on input line 639.
 (pdftex.def)             Requested size: 441.01772pt x 106.06523pt.
  [15]
 <imgs/8NoMigracion2.png, id=74, 1030.85126pt x 247.92625pt>
 File: imgs/8NoMigracion2.png Graphic file (type png)
 
 <use imgs/8NoMigracion2.png>
-Package pdftex.def Info: imgs/8NoMigracion2.png used on input line 643.
+Package pdftex.def Info: imgs/8NoMigracion2.png used on input line 647.
 (pdftex.def)             Requested size: 441.01772pt x 106.06523pt.
  [16 <./imgs/8Migracion2.png (PNG copy)> <./imgs/8NoMigracion2.png (PNG copy)>]
  
@@ -793,7 +793,7 @@ AED: lastpage setting LastPage
 [17] (./inform.aux) ) 
 Here is how much of TeX's memory you used:
  6767 strings out of 495028
- 95741 string characters out of 6181498
+ 95742 string characters out of 6181498
  179505 words of memory out of 5000000
  9790 multiletter control sequences out of 15000+600000
  8295 words of font info for 34 fonts, out of 8000000 for 9000
@@ -809,7 +809,7 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmtt10.pfb>
-Output written on inform.pdf (17 pages, 298053 bytes).
+Output written on inform.pdf (17 pages, 298487 bytes).
 PDF statistics:
  114 PDF objects out of 1000 (max. 8388607)
  69 compressed objects within 1 object stream
